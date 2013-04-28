@@ -4,11 +4,13 @@
 
 GlutWindow::GlutWindow(const std::string& name):context(glutCreateWindow(name.c_str()))
 {
+	GLContextGetter get(context);
 }
 
 
 GlutWindow::GlutWindow(int _windowId):context(_windowId)
 { 	
+	GLContextGetter get(context);
 }
 
 GlutWindow::~GlutWindow(void)
@@ -34,4 +36,10 @@ GlutWindow GlutWindow::subWindow(int x, int y, int width, int height)
 	GLContextGetter get(context);
 	int subWindowId = glutCreateSubWindow(context.getWindowId(), x, y, width, height);
 	return GlutWindow(subWindowId);
+}
+
+TwBar* GlutWindow::addBar(const std::string& name)
+{
+	GLContextGetter get(context);
+	return TwNewBar(name.c_str());
 }

@@ -17,14 +17,27 @@ public:
 	int getWindowId() const;
 
 	void registerCallbacks(ContextCallbacks* callbacks) const;
+	
+	void initTweakBars();
+	bool getIsInitTweakBars() const{ return isTweakBarsInit; }
+
 	static GLContext getCurrentContext();
 
 	static const int INVALID_CONTEXT;
 private:
 	static void displayFunc();
 	static void idleFunc();
+	static void reshapeFunc(int width, int height);
 
-	int windowId;
+	static void mouseFunc(int button, int state, int x, int y);
+	static void motionFunc(int x, int y);
+	static void passiveMotionFunc(int x, int y);
+	static void keyboardFunc(unsigned char key, int x, int y);
+	static void specialFunc(int key, int x, int y);
+	static void closeFunc();
+
+	int  windowId;
+	bool isTweakBarsInit;
 
 	typedef boost::shared_ptr<ContextCallbacks> CallbackHolder;
 	static boost::unordered_map<int, CallbackHolder> Callbacks;
@@ -40,7 +53,8 @@ public:
 	GLContextGetter(const GLContext& context);
 	~GLContextGetter();
 private:
-	int oldWindowId;
+	int  oldWindowId;
+	bool hasAntBar;
 };
 
 

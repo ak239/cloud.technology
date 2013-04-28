@@ -4,6 +4,7 @@
 #include <boost/unordered_map.hpp>
 #include "ContextCallbacks.h"
 #include "GLContext.h"
+#include <AntTweakBar.h>
 
 class GlutWindow
 {
@@ -16,12 +17,17 @@ public:
 	void setPosition(int x, int y);
 	void setGeometry(int width, int height);
 
+	TwBar* addBar(const std::string& name);
+
 	const GLContext& getContext() const{ return context; }
+	GLContext& getContext(){ return context; }
 
 private:
 	GlutWindow(int _windowId);
 
-	const GLContext context;
+	std::string barName;
+
+	GLContext context;
 };
 
 

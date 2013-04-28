@@ -15,6 +15,8 @@ bool GLApp::glewInitialize()
 		lastError = reinterpret_cast<const char*>(glewGetErrorString(res));
 		return false;
 	}
+	TwInit(TW_OPENGL, nullptr);
+	TwGLUTModifiersFunc(glutGetModifiers);
 	return true;
 }
 

@@ -21,11 +21,32 @@ public:
 
 	void display();
 
+	void reshape(int width, int height);
+
+	// Input processing
+	void mouse(int button, int state, int x, int y);
+	void motion(int x, int y);
+	void passiveMotion(int x, int y);
+	void keyboard(unsigned char key, int x, int y);
+	void special(int key, int x, int y);
+
+	// Guaranted call TwTerminate if context init tweak bars
+	void close();
+
 	virtual bool hasIdleFunc(){ return false; }
 private:
 	virtual void initImpl(){}
 	virtual void idleImpl(){}
 	virtual void displayImpl() = 0;
+	virtual void reshapeImpl(int width, int height){}
+
+	virtual void mouseImpl(int button, int state, int x, int y){}
+	virtual void motionImpl(int x, int y){}
+	virtual void passiveMotionImpl(int x, int y){}
+	virtual void keyboardImpl(unsigned char key, int x, int y){}
+	virtual void specialImpl(int key, int x, int y){}
+
+	virtual void closeImpl(){};
 
 	GLContext context;
 };

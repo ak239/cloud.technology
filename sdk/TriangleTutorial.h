@@ -33,7 +33,6 @@ private:
 
 		glDisableVertexAttribArray(0);
 
-		glutSwapBuffers();
 	}
 
 	GLuint VBO;

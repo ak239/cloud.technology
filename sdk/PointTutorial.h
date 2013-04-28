@@ -39,8 +39,6 @@ private:
 		glDrawArrays(GL_POINTS, 0, 1);
 
 		glDisableVertexAttribArray(0);
-
-		glutSwapBuffers();
 	}
 
 	GLuint VBO;
