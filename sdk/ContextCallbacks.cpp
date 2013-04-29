@@ -39,6 +39,7 @@ void ContextCallbacks::display()
 void ContextCallbacks::reshape(int width, int height)
 {
 	GLContextGetter get(context);
+
 	reshapeImpl(width, height);
 	
 	if (context.getIsInitTweakBars())

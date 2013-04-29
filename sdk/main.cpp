@@ -14,6 +14,7 @@
 #include "ScaleTutorial.h"
 #include "InterpolationTutorial.h"
 #include "IndexesTutorial.h"
+#include "TransformTutorial.h"
 
 #include "FSShaderProgramLoader.h"
 
@@ -35,19 +36,24 @@ int main(int args, char* argv[])
 
 	app.glutInitialize(args, argv);
 
-	GlutWindow cloudWindow("Cloud Window");
-	cloudWindow.setPosition(10, 10);
-	cloudWindow.setGeometry(500, 500);
+	//GlutWindow cloudWindow("Cloud Window");
+	//cloudWindow.setPosition(10, 10);
+	//cloudWindow.setGeometry(500, 500);
 
-	GlutWindow pointWindow    = cloudWindow.subWindow(0, 0, 100, 100);
-	GlutWindow triangleWindow = cloudWindow.subWindow(100, 0, 100, 100);
-	GlutWindow shadersWindow  = cloudWindow.subWindow(200, 0, 100, 100);
-	GlutWindow uniformWindow  = cloudWindow.subWindow(300, 0, 100, 100);
-	GlutWindow moveWindow     = cloudWindow.subWindow(0, 100, 100, 100); 
-	GlutWindow rotateWindow   = cloudWindow.subWindow(100, 100, 100, 100);
-	GlutWindow scaleWindow    = cloudWindow.subWindow(200, 100, 100, 100);
-	GlutWindow interpolationWindow = cloudWindow.subWindow(300, 100, 100, 100);
-	GlutWindow indexesWindow = cloudWindow.subWindow(0, 200, 100, 100);
+	//GlutWindow pointWindow    = cloudWindow.subWindow(0, 0, 100, 100);
+	//GlutWindow triangleWindow = cloudWindow.subWindow(100, 0, 100, 100);
+	//GlutWindow shadersWindow  = cloudWindow.subWindow(200, 0, 100, 100);
+	//GlutWindow uniformWindow  = cloudWindow.subWindow(300, 0, 100, 100);
+	//GlutWindow moveWindow     = cloudWindow.subWindow(0, 100, 100, 100); 
+	//GlutWindow rotateWindow   = cloudWindow.subWindow(100, 100, 100, 100);
+	//GlutWindow scaleWindow    = cloudWindow.subWindow(200, 100, 100, 100);
+	//GlutWindow interpolationWindow = cloudWindow.subWindow(300, 100, 100, 100);
+	//GlutWindow indexesWindow   = cloudWindow.subWindow(0, 200, 100, 100);
+
+	GlutWindow transformWindow("Cloud Window");
+	transformWindow.setPosition(10, 10);
+	transformWindow.setGeometry(500, 500);
+	//GlutWindow transformWindow = cloudWindow.subWindow(100, 200, 100, 100);
 
 	
 	// after window create!!! (need context)
@@ -56,7 +62,7 @@ int main(int args, char* argv[])
 		std::cerr << "App Init Error: " << app.getLastError() << std::endl;
 		return -1;
 	}
-
+	/*
 	cloudWindow.getContext().initTweakBars();
 	//cloudWindow.addBar("bar1");
 	cloudWindow.getContext().registerCallbacks(new SimpleActions());
@@ -122,10 +128,21 @@ int main(int args, char* argv[])
 		indexes_context.registerCallbacks(new IndexesTutorial(indexes_loader.getProgram().getUniformLoc("gWorld")));
 		indexes_loader.getProgram().use();
 	}
+	*/
+	// Transform Tutorial
+	FSShaderProgramLoader transform_loader("./transform_tutorial");
+	GLContext transform_context = transformWindow.getContext();
+	if (!transform_loader.loadProgram(transform_context)){
+		std::cerr << transform_loader.getLastError() << std::endl;
+	}else{
+		GLContextGetter get(transform_context);
+		transform_context.registerCallbacks(new TransformTutorial(transform_loader.getProgram().getUniformLoc("gWorld"), 500, 500));
+		transform_loader.getProgram().use();
+	}
 	
 
-	triangleWindow.getContext().registerCallbacks(new TriangleTutorial());
-	pointWindow.getContext().registerCallbacks(new PointTutorial());
+	//triangleWindow.getContext().registerCallbacks(new TriangleTutorial());
+	//pointWindow.getContext().registerCallbacks(new PointTutorial());
 
 	return app.exec();
 }

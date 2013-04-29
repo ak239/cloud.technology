@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\boost;..\..\AntTweakBar\include;..\..\freeglut-2.8.0\include;..\..\glew-1.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\glm-0.9.4.3;..\..\boost;..\..\AntTweakBar\include;..\..\freeglut-2.8.0\include;..\..\glew-1.9.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\boost\stage\lib;..\..\glew-1.9.0\lib;..\..\glew-1.9.0\bin;..\..\AntTweakBar\lib\debug;..\..\freeglut-2.8.0\lib\x86\Debug;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -90,13 +90,13 @@
     <ClCompile Include="GLContext.cpp" />
     <ClCompile Include="GlutWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MoveTutorial.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderProgramLoader.cpp" />
-    <ClCompile Include="UniformTutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ControlledCamera.h" />
     <ClInclude Include="FSShaderProgramLoader.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="GLApp.h" />
@@ -114,6 +114,7 @@
     <ClInclude Include="ShaderProgramLoader.h" />
     <ClInclude Include="ShadersTutorial.h" />
     <ClInclude Include="SimpleActions.h" />
+    <ClInclude Include="TransformTutorial.h" />
     <ClInclude Include="TriangleTutorial.h" />
     <ClInclude Include="TweakBarVarHelper.h" />
     <ClInclude Include="UniformTutorial.h" />

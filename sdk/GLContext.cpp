@@ -125,7 +125,7 @@ void GLContext::specialFunc(int key, int x, int y)
 	GLContext context = getCurrentContext();
 	auto it = Callbacks.find(context.getWindowId());
 	if (it != Callbacks.end())
-		it->second->special(key, x, y);
+		it->second->keyboard(key, x, y);
 }
 
 void GLContext::closeFunc()

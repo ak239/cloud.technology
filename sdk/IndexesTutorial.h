@@ -3,6 +3,8 @@
 #include "ContextCallbacks.h"
 #include "PointTutorial.h"
 #include "MoveTutorial.h"
+#include <glm\gtc\type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class IndexesTutorial : public ContextCallbacks
 {
@@ -13,15 +15,15 @@ public:
 private:
 	void initImpl()
 	{
-		Vector3f Vertices[4];
-		Vertices[0] = Vector3f(-1.0f, -1.0f, 0.0f);
-		Vertices[1] = Vector3f(0.0f, -1.0f, 1.0f);
-		Vertices[2] = Vector3f(1.0f, -1.0f, 0.0f);
-		Vertices[3] = Vector3f(0.0f, 1.0f, 0.0f);
+		glm::mat4x3 vertices;
+		vertices[0] = glm::vec3(-1.0, -1.0, 0.0);
+		vertices[1] = glm::vec3(0.0,  -1.0, 1.0);
+		vertices[2] = glm::vec3(1.0,  -1.0, 0.0);
+		vertices[3] = glm::vec3(0.0,   1.0, 0.0);
 
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.col_size() * vertices.row_size(), glm::value_ptr(vertices), GL_STATIC_DRAW);
 
 		unsigned int Indices[] = { 0, 3, 1,
 							1, 3, 2,
