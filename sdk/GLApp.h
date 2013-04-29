@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "gl.h"
 
 class GLApp
 {

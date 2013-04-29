@@ -13,6 +13,7 @@ public:
 	virtual ~ContextCallbacks(){}
 	// Guaranted, that context will be setted by GLContext::setCallbacks before other calls
 	void setContext(const GLContext& _context);
+	const GLContext& getContext() const{ return context; }
 
 	void init();
 	

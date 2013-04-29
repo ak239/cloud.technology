@@ -13,6 +13,7 @@ public:
 	~GlutWindow(void);
 
 	GlutWindow subWindow(int x, int y, int width, int height);
+	static GlutWindow Fullscreen(const std::string& mode);
 
 	void setPosition(int x, int y);
 	void setGeometry(int width, int height);

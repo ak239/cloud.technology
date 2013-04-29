@@ -43,3 +43,9 @@ TwBar* GlutWindow::addBar(const std::string& name)
 	GLContextGetter get(context);
 	return TwNewBar(name.c_str());
 }
+
+GlutWindow GlutWindow::Fullscreen(const std::string& mode)
+{
+	glutGameModeString(mode.c_str());
+	return GlutWindow(glutEnterGameMode());
+}

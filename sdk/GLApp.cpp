@@ -5,6 +5,7 @@
 void GLApp::glutInitialize(int args, char* argv[])
 {
 	glutInit(&args, argv);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA);
 }
 
 bool GLApp::glewInitialize()

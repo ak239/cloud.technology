@@ -42,6 +42,9 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="UniformWrapper.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlutWindow.h">
@@ -111,6 +114,24 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="ControlledCamera.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureTutorial.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformMatrix.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformWrapper.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="GLContextObj.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingTutorial.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

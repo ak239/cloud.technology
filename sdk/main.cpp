@@ -15,6 +15,8 @@
 #include "InterpolationTutorial.h"
 #include "IndexesTutorial.h"
 #include "TransformTutorial.h"
+#include "TextureTutorial.h"
+#include "LightingTutorial.h"
 
 #include "FSShaderProgramLoader.h"
 
@@ -36,25 +38,7 @@ int main(int args, char* argv[])
 
 	app.glutInitialize(args, argv);
 
-	//GlutWindow cloudWindow("Cloud Window");
-	//cloudWindow.setPosition(10, 10);
-	//cloudWindow.setGeometry(500, 500);
-
-	//GlutWindow pointWindow    = cloudWindow.subWindow(0, 0, 100, 100);
-	//GlutWindow triangleWindow = cloudWindow.subWindow(100, 0, 100, 100);
-	//GlutWindow shadersWindow  = cloudWindow.subWindow(200, 0, 100, 100);
-	//GlutWindow uniformWindow  = cloudWindow.subWindow(300, 0, 100, 100);
-	//GlutWindow moveWindow     = cloudWindow.subWindow(0, 100, 100, 100); 
-	//GlutWindow rotateWindow   = cloudWindow.subWindow(100, 100, 100, 100);
-	//GlutWindow scaleWindow    = cloudWindow.subWindow(200, 100, 100, 100);
-	//GlutWindow interpolationWindow = cloudWindow.subWindow(300, 100, 100, 100);
-	//GlutWindow indexesWindow   = cloudWindow.subWindow(0, 200, 100, 100);
-
-	GlutWindow transformWindow("Cloud Window");
-	transformWindow.setPosition(10, 10);
-	transformWindow.setGeometry(500, 500);
-	//GlutWindow transformWindow = cloudWindow.subWindow(100, 200, 100, 100);
-
+	GlutWindow wnd = GlutWindow::Fullscreen("1280x1024");
 	
 	// after window create!!! (need context)
 	if (!app.glewInitialize())
@@ -62,87 +46,9 @@ int main(int args, char* argv[])
 		std::cerr << "App Init Error: " << app.getLastError() << std::endl;
 		return -1;
 	}
-	/*
-	cloudWindow.getContext().initTweakBars();
-	//cloudWindow.addBar("bar1");
-	cloudWindow.getContext().registerCallbacks(new SimpleActions());
-	// shader tutorial
-	setupWindow(shadersWindow, new ShadersTutorial(), "./shader_tutorial");
-	// unifodrm tutorial
-	FSShaderProgramLoader uniform_loader("./uniform_tutorial");
-	GLContext uniform_context = uniformWindow.getContext();
-	if (!uniform_loader.loadProgram(uniform_context)){
-		std::cerr << uniform_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(uniform_context);
-		uniform_context.registerCallbacks(new UniformTutorial(uniform_loader.getProgram().getUniformLoc("gScale")));
-		uniform_loader.getProgram().use();
-	}
-	// Move tutorial
-	FSShaderProgramLoader move_loader("./move_tutorial");
-	GLContext move_context = moveWindow.getContext();
-	if (!move_loader.loadProgram(move_context)){
-		std::cerr << move_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(move_context);
-		move_context.registerCallbacks(new MoveTutorial(move_loader.getProgram().getUniformLoc("gWorld")));
-		move_loader.getProgram().use();
-	}
-	// Rotate tutorial
-	FSShaderProgramLoader rotate_loader("./move_tutorial");
-	GLContext rotate_context = rotateWindow.getContext();
-	if (!rotate_loader.loadProgram(rotate_context)){
-		std::cerr << rotate_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(rotate_context);
-		rotate_context.registerCallbacks(new RotateTutorial(rotate_loader.getProgram().getUniformLoc("gWorld")));
-		rotate_loader.getProgram().use();
-	}
-	// Scale Tutorial
-	FSShaderProgramLoader scale_loader("./move_tutorial");
-	GLContext scale_context = scaleWindow.getContext();
-	if (!scale_loader.loadProgram(scale_context)){
-		std::cerr << scale_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(scale_context);
-		scale_context.registerCallbacks(new ScaleTutorial(scale_loader.getProgram().getUniformLoc("gWorld")));
-		scale_loader.getProgram().use();
-	}
-	// Interpolation Tutorial
-	FSShaderProgramLoader interpolation_loader("./interpolation_tutorial");
-	GLContext interpolation_context = interpolationWindow.getContext();
-	if (!interpolation_loader.loadProgram(interpolation_context)){
-		std::cerr << interpolation_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(interpolation_context);
-		interpolation_context.registerCallbacks(new InterpolationTutorial(interpolation_loader.getProgram().getUniformLoc("gWorld")));
-		interpolation_loader.getProgram().use();
-	}
-	// Indexes Tutorial
-	FSShaderProgramLoader indexes_loader("./interpolation_tutorial");
-	GLContext indexes_context = indexesWindow.getContext();
-	if (!indexes_loader.loadProgram(indexes_context)){
-		std::cerr << indexes_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(indexes_context);
-		indexes_context.registerCallbacks(new IndexesTutorial(indexes_loader.getProgram().getUniformLoc("gWorld")));
-		indexes_loader.getProgram().use();
-	}
-	*/
-	// Transform Tutorial
-	FSShaderProgramLoader transform_loader("./transform_tutorial");
-	GLContext transform_context = transformWindow.getContext();
-	if (!transform_loader.loadProgram(transform_context)){
-		std::cerr << transform_loader.getLastError() << std::endl;
-	}else{
-		GLContextGetter get(transform_context);
-		transform_context.registerCallbacks(new TransformTutorial(transform_loader.getProgram().getUniformLoc("gWorld"), 500, 500));
-		transform_loader.getProgram().use();
-	}
-	
 
-	//triangleWindow.getContext().registerCallbacks(new TriangleTutorial());
-	//pointWindow.getContext().registerCallbacks(new PointTutorial());
+	GLContext context = wnd.getContext();
+	context.registerCallbacks(new LightingTutorial());
 
 	return app.exec();
 }
