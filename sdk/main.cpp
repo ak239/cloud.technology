@@ -18,6 +18,7 @@
 #include "TextureTutorial.h"
 #include "LightingTutorial.h"
 #include "YetAnotherExample.h"
+#include "clouds/clouds.h"
 
 #include "FSShaderProgramLoader.h"
 
@@ -52,7 +53,7 @@ int main(int args, char* argv[])
 	}
 
 	GLContext context = wnd.getContext();
-	context.registerCallbacks(new YetAnotherExample());
+	context.registerCallbacks(new Clouds());
 
 	return app.exec();
 }

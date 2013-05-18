@@ -84,6 +84,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clouds\CubemapTexture.cpp" />
+    <ClCompile Include="clouds\GameScene.cpp" />
+    <ClCompile Include="clouds\Mesh.cpp" />
+    <ClCompile Include="clouds\Skybox.cpp" />
     <ClCompile Include="ContextCallbacks.cpp" />
     <ClCompile Include="FSShaderProgramLoader.cpp" />
     <ClCompile Include="GLApp.cpp" />
@@ -97,6 +101,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="clouds\clouds.h" />
+    <ClInclude Include="clouds\CubemapTexture.h" />
+    <ClInclude Include="clouds\GameScene.h" />
+    <ClInclude Include="clouds\Mesh.h" />
+    <ClInclude Include="clouds\utils.h" />
+    <ClInclude Include="PersProjInfo.h" />
+    <ClInclude Include="clouds\Primitives.h" />
+    <ClInclude Include="clouds\Skybox.h" />
     <ClInclude Include="ControlledCamera.h" />
     <ClInclude Include="FSShaderProgramLoader.h" />
     <ClInclude Include="gl.h" />

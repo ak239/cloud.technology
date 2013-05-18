@@ -27,7 +27,7 @@ private:
 		aspect = static_cast<GLfloat>(width) / height;
 		// create camera
 		camera = new ControlledCamera(width, height);
-		camera->setPos(glm::vec3(0.0f, 0.0f, 0.0f));
+		camera->setPos(glm::vec3(0.0f, 0.0f, -2.0f));
 		camera->setUp(glm::vec3(0.0f, 1.0f, 0.0f));
 		
 		// setup gl
@@ -99,11 +99,11 @@ private:
 	void reshapeImpl(int width, int height) {
 		glViewport(0, 0, width, height);
 		aspect = static_cast<GLfloat>(width) / height;
-		
+		camera->reshapeFunc(width, height);
 
 		TransformMatrix tm;
 		tm.setRotate(glm::vec3(0.0f, 0.0f, 0.0f));
-		tm.setWorldPos(glm::vec3(0.0f, 0.0f, -2.0f));
+		//tm.setWorldPos(glm::vec3(0.0f, 0.0f, -2.0f));
 
 		glm::mat4 camMat = camera->cameraMat();
 		
@@ -132,7 +132,7 @@ private:
 
 		TransformMatrix tm;
 		tm.setRotate(glm::vec3(0.0f, 0.0f, 0.0f));
-		tm.setWorldPos(glm::vec3(0.0f, 0.0f, -2.0f));
+		//tm.setWorldPos(glm::vec3(0.0f, 0.0f, -2.0f));
 		
 		glm::mat4 camMat = camera->cameraMat();
 

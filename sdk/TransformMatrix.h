@@ -31,19 +31,36 @@ public:
 		camera = _camera;
 	}
 
+	void setCameraPosition(const glm::vec3& cameraPosition) {
+		this->cameraPosition = cameraPosition;
+	}
+
 	const glm::mat4& getWVP() const{
+		
 		WVP = glm::translate(glm::mat4(), worldPos);
 
 		WVP = glm::rotate(WVP, rotate.x, glm::vec3(1.0f, 0.0f, 0.0f));
 		WVP = glm::rotate(WVP, rotate.y, glm::vec3(0.0f, 1.0f, 0.0f));
 		WVP = glm::rotate(WVP, rotate.z, glm::vec3(0.0f, 0.0f, 1.0f));
-
+		
+		
 		WVP = glm::scale(WVP, scale);
 		return WVP;		
 	}
 
 	const glm::mat4& getTransform() const{
-		transform = projection * camera * getWVP();
+		getWVP();
+
+		transform = projection * camera * WVP;
+		return transform;
+	}
+
+	const glm::mat4& getTranslatedTransform() const{
+		getWVP();
+
+		glm::mat4 cameraTranslation = glm::translate(glm::mat4(), -cameraPosition);
+
+		transform = projection * camera * cameraTranslation * getWVP();
 		return transform;
 	}
 
@@ -54,6 +71,7 @@ private:
 
 	glm::mat4 projection;
 	glm::mat4 camera;
+	glm::vec3 cameraPosition;
 
 	mutable glm::mat4 transform;
 	mutable glm::mat4 WVP;

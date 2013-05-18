@@ -9,67 +9,79 @@ class ControlledCamera : public Camera
 {
 public:
 	ControlledCamera(GLint _width, GLint _height) : 
-		isLeft(false), isRight(false), isUp(false), isDown(false),
-		width(_width), height(_height){}
+		width(_width), height(_height){
+		
+		m_mousePos.x  = width / 2;
+		m_mousePos.y  = height / 2;
+
+		glutWarpPointer(m_mousePos.x, m_mousePos.y);
+		m_Speed = 0.1f;
+	}
 
 	void reshapeFunc(int _width, int _height){
 		width  = _width;
 		height = _height;
+
+		m_mousePos.x  = width / 2;
+		m_mousePos.y  = height / 2;
+
+		glutWarpPointer(m_mousePos.x, m_mousePos.y);
 	}
 	
 	void keyboardFunc(unsigned char key, int x, int y){
 		switch(key){
 		case GLUT_KEY_UP:
-			moveCamera(getTarget() * glm::vec3(-0.01f, -0.01f, -0.01f));
+			moveCamera(getTarget() * (-glm::vec3(m_Speed)));
 			break;
 		case GLUT_KEY_DOWN:
-			moveCamera(getTarget() * glm::vec3(0.01f, 0.01f, 0.01f));
+			moveCamera(getTarget() * glm::vec3(m_Speed));
 			break;
 		case GLUT_KEY_LEFT:
 			{
 				glm::vec3 left = glm::normalize(glm::cross(getTarget(), getUp()));
-				moveCamera(left * glm::vec3(0.01f, 0.01f, 0.01f));
+				moveCamera(left * glm::vec3(m_Speed));
 				break;
 			}
 		case GLUT_KEY_RIGHT:
 			{
 				glm::vec3 right = glm::normalize(glm::cross(getTarget(), getUp()));
-				moveCamera(right * glm::vec3(-0.01f, -0.01f, -0.01f));
+				moveCamera(right * (-glm::vec3(m_Speed)));
 				break;
 			}
 		}	
 	}
 
+	void setSpeed(float speed) {
+		m_Speed = speed;
+	}
+
 	void mouseMotionFunc(int x, int y){
-		isLeft = isRight = isUp = isDown = false; 
-		if (x < 100)
-			isLeft = true;
-		if (x > width - 100)
-			isRight = true;
-		if (y < 100)
-			isUp = true;
-		if (y > height - 100)
-			isDown = true;
+		if (( x == m_mousePos.x)&&(y == m_mousePos.y)) return;
+
+		int DeltaX = x - m_mousePos.x;
+		int DeltaY = y - m_mousePos.y;
+
+		if (getUp().y > 0)
+		{
+			DeltaX = -DeltaX;
+			DeltaY = -DeltaY;
+		}
+
+		setHorizontalAngle(getHorizontalAngle() + (float)DeltaX / 60.0f);
+		setVerticalAngle(getVerticalAngle() + (float)DeltaY / 60.0f);
+
+		glutWarpPointer(m_mousePos.x, m_mousePos.y);
 	}
 	
 	void idleFunc(){
-		if (isLeft)
-			setHorizontalAngle(getHorizontalAngle() - 0.001f);
-		if (isRight)
-			setHorizontalAngle(getHorizontalAngle() + 0.001f);
-		if (isUp)
-			setVerticalAngle(getVerticalAngle() + 0.001f);
-		if (isDown)
-			setVerticalAngle(getVerticalAngle() - 0.001f);
 	}
 
 private:
-	bool isLeft;
-	bool isRight;
-	bool isUp;
-	bool isDown;
-
 	GLint width;
 	GLint height;
+
+	float m_Speed;
+
+	glm::ivec2 m_mousePos;
 };
 

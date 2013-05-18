@@ -32,7 +32,7 @@ private:
 
 template<>
 inline void UniformWrapper<glm::mat4>::syncValue(){
-	glUniformMatrix4fv(location, 1, GL_TRUE, &val[0][0]);
+	glUniformMatrix4fv(location, 1, GL_FALSE, &val[0][0]);
 }
 
 template<>

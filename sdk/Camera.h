@@ -1,14 +1,50 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glm\gtc\type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/ext.hpp>
 
 class Camera
 {
 public:
-	Camera():verticalAngle(0.0f), horizontalAngle(0.0f){}
+	Camera():verticalAngle(0.0f), horizontalAngle(-glm::pi<float>()){
+		cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
+		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+		target = glm::vec3(0.0f, 0.0f, 1.0f);
+		init();
+	}
+
 	virtual ~Camera(){}
+
+	void init() {
+		glm::vec3 HTarget = glm::normalize(glm::vec3(target.x, 0.0, target.z));
+
+		if (HTarget.z >= 0.0f)
+		{
+			if (HTarget.x >= 0.0f)
+			{
+				horizontalAngle = (GLfloat)(2*glm::pi<GLfloat>() - asin(HTarget.z));
+			}
+			else
+			{
+				horizontalAngle = (GLfloat)(glm::pi<GLfloat>() + asin(HTarget.z));
+			}
+		}
+		else
+		{
+			if (HTarget.x >= 0.0f)
+			{
+				horizontalAngle = asin(-HTarget.z);
+			}
+			else
+			{
+				horizontalAngle = (GLfloat)(0.5*glm::pi<GLfloat>() + asin(-HTarget.z));
+			}
+		}
+
+		verticalAngle = -asin(target.y);
+
+		
+	}
 
 	void setPos(const glm::vec3& _cameraPos){
 		cameraPos = _cameraPos;
@@ -16,6 +52,7 @@ public:
 
 	void moveCamera(const glm::vec3& delta){
 		cameraPos += delta;
+		printf("(%f, %f, %f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
 	}
 
 	void changeAngles(const glm::vec2& delta){
@@ -31,57 +68,35 @@ public:
 	}
 
 	glm::mat4 cameraMat(){
-		glm::vec3 vAxies(0.0f, 1.0f, 0.0f);
-		glm::vec3 view(1.0f, 0.0f, 0.0f);
+		Update();
+		return glm::lookAt(getPos(), getPos()+target, cameraUp);
+	}
 
-		const GLfloat sinHorHalfAngle = sinf(horizontalAngle / 2.0f);
-		const GLfloat cosHorHalfAngle = cosf(horizontalAngle / 2.0f);
-		glm::quat quat(vAxies[0] * sinHorHalfAngle,
-			vAxies[1] * sinHorHalfAngle,
-			vAxies[2] * sinHorHalfAngle,
-			cosHorHalfAngle);
+	void Update() {
+		glm::vec3 vAxies(0.0, 1.0, 0.0);
+		glm::vec3 view(cos(verticalAngle) * sin(horizontalAngle), sin(verticalAngle), cos(verticalAngle) * cos(horizontalAngle));
 
-		glm::quat w = glm::rotate(quat, horizontalAngle, vAxies);
-		view = glm::vec3(w.x, w.y, w.z);
-		view = glm::normalize(view);
+		glm::vec3 right = glm::vec3(sin(horizontalAngle - 0.5f * glm::pi<float>()), 
+			0,
+			cos(horizontalAngle - 0.5f * glm::pi<float>()));
 
-		glm::vec3 hAxis = glm::normalize(glm::cross(vAxies, view));
-		//hAxis = 
-		const GLfloat sinVerHalfAngle = sinf(verticalAngle / 2.0f);
-		const GLfloat cosVerHalfAngle = cosf(verticalAngle / 2.0f);
-		glm::quat quatVer(hAxis[0] * sinVerHalfAngle,
-			hAxis[1] * sinVerHalfAngle,
-			hAxis[2] * sinVerHalfAngle,
-			cosVerHalfAngle);
-
-		glm::quat wVer = glm::rotate(quatVer, verticalAngle, hAxis);
-		view = glm::vec3(wVer.x, wVer.y, wVer.z);
-		view = glm::normalize(view);
-
-		target = view;
-		glm::vec3 up     = glm::normalize(glm::cross(target, hAxis));
-
-		glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(-1.0f * cameraPos[0], -1.0f * cameraPos[1], -1.0f * cameraPos[2]));
-		glm::vec3 cross  = glm::cross(target, up);
-
-		glm::mat4 rotate = glm::mat4(
-			up[0],     up[1],     up[2],     0.0f,
-			cross[0],  cross[1],  cross[2],  0.0f,
-			target[0], target[1], target[2], 0.0f,
-			0.0f,      0.0f,      0.0f,      1.0f
-			);
-		return translate * rotate;
+		target = glm::normalize(view);
+		cameraUp = glm::normalize(glm::cross(right, view));
+		glm::vec3 up = glm::normalize(glm::cross(right, target));
 	}
 
 	GLfloat getHorizontalAngle() const{ return horizontalAngle; }
 	GLfloat getVerticalAngle()   const{ return verticalAngle;   }
 
-	void setVerticalAngle(GLfloat verAngle){
-		verticalAngle = verAngle;
+	void setVerticalAngle(GLfloat verAngle) {
+		verticalAngle = glm::clamp(verAngle, -glm::pi<float>(), glm::pi<float>());
+		printf("Vertical angle : %f\n", verticalAngle);
 	}
 
 	void setHorizontalAngle(GLfloat horAngle){
 		horizontalAngle = horAngle;
+		//horizontalAngle = glm::clamp(horAngle, -glm::pi<float>(), glm::pi<float>());
+		printf("Horizontal angle : %f\n", horizontalAngle);
 	}
 
 	const glm::vec3& getTarget() const{
