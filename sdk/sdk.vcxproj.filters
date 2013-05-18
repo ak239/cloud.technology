@@ -134,5 +134,8 @@
     <ClInclude Include="LightingTutorial.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="YetAnotherExample.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

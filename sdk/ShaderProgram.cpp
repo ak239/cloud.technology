@@ -70,7 +70,7 @@ GLuint ShaderProgram::getUniformLoc(const std::string& name) const
 {
 	assert(id != INVALID_PROGRAM);
 	GLuint loc =glGetUniformLocation(id, name.c_str());
-	assert(loc != 0xFFFFFFFF);
+	//assert(loc != 0xFFFFFFFF);
 	return loc;
 }
 

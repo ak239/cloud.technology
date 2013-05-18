@@ -40,9 +40,9 @@ private:
 		createBuffers();
 		
 		// load shaders
-		FSShaderProgramLoader loader("./lighting_tutorial");
-		if (loader.loadProgram(getContext())){
-			const ShaderProgram& program = loader.getProgram();
+		loader = new FSShaderProgramLoader("./lighting_tutorial");
+		if (loader->loadProgram(getContext())){
+			const ShaderProgram& program = loader->getProgram();
 			program.use();
 			gWVP               = UniformWrapper<glm::mat4>(program.getUniformLoc("gWVP"));
 			gWorld             = UniformWrapper<glm::mat4>(program.getUniformLoc("gWorld"));
@@ -52,10 +52,10 @@ private:
 			gLightDirection    = UniformWrapper<glm::vec3>(program.getUniformLoc("gDirectionalLight.Direction"));
 			gDirLightIntensity = UniformWrapper<GLfloat>(program.getUniformLoc("gDirectionalLight.DiffuseIntensity"));
 		}else
-			std::cerr << loader.getLastError() << std::endl;
+			std::cerr << loader->getLastError() << std::endl;
 
 		gLightColor.setValue(glm::vec3(1.0f, 1.0f, 1.0f));
-		gLightIntensity.setValue(0.0f);
+		gLightIntensity.setValue(1.0f);
 		gLightDirection.setValue(glm::vec3(1.0f, 0.0f, 0.0f));
 		gDirLightIntensity.setValue(0.75f);
 
@@ -96,9 +96,35 @@ private:
 		camera->keyboardFunc(key, x, y);
 	}
 
+	void reshapeImpl(int width, int height) {
+		glViewport(0, 0, width, height);
+		aspect = static_cast<GLfloat>(width) / height;
+		
+
+		TransformMatrix tm;
+		tm.setRotate(glm::vec3(0.0f, 0.0f, 0.0f));
+		tm.setWorldPos(glm::vec3(0.0f, 0.0f, -2.0f));
+
+		glm::mat4 camMat = camera->cameraMat();
+		
+		tm.setCamera(camera->cameraMat());
+		tm.setProjection(glm::perspective(60.0f, aspect, 1.0f, 100.0f));
+	}
+
 	void passiveMotionImpl(int x, int y)
 	{
 		camera->mouseMotionFunc(x, y);			
+	}
+
+	void printMatrix(glm::mat4 const & m) {
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				std::cout << m[i][j] << " ";
+			}
+			std::cout << std::endl;
+		}
 	}
 
 	void displayImpl(){
@@ -106,7 +132,10 @@ private:
 
 		TransformMatrix tm;
 		tm.setRotate(glm::vec3(0.0f, 0.0f, 0.0f));
-		tm.setWorldPos(glm::vec3(0.0f, 0.0f, 0.0f));
+		tm.setWorldPos(glm::vec3(0.0f, 0.0f, -2.0f));
+		
+		glm::mat4 camMat = camera->cameraMat();
+
 		tm.setCamera(camera->cameraMat());
 		tm.setProjection(glm::perspective(60.0f, aspect, 1.0f, 100.0f));
 		
@@ -188,6 +217,7 @@ private:
 
 private:
 	ControlledCamera* camera;
+	FSShaderProgramLoader* loader;
 	
 	GLuint vertexBufferObject;
 	GLuint indexBufferObject;

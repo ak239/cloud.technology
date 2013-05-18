@@ -17,6 +17,7 @@
 #include "TransformTutorial.h"
 #include "TextureTutorial.h"
 #include "LightingTutorial.h"
+#include "YetAnotherExample.h"
 
 #include "FSShaderProgramLoader.h"
 
@@ -38,7 +39,10 @@ int main(int args, char* argv[])
 
 	app.glutInitialize(args, argv);
 
-	GlutWindow wnd = GlutWindow::Fullscreen("1280x1024");
+	//GlutWindow wnd = GlutWindow::Fullscreen("1280x1024");
+	GlutWindow wnd("Main window");
+	wnd.setGeometry(800, 600);
+	wnd.setPosition(300, 300);
 	
 	// after window create!!! (need context)
 	if (!app.glewInitialize())
@@ -48,7 +52,7 @@ int main(int args, char* argv[])
 	}
 
 	GLContext context = wnd.getContext();
-	context.registerCallbacks(new LightingTutorial());
+	context.registerCallbacks(new YetAnotherExample());
 
 	return app.exec();
 }

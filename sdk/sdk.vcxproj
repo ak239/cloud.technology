@@ -125,6 +125,7 @@
     <ClInclude Include="TweakBarVarHelper.h" />
     <ClInclude Include="UniformTutorial.h" />
     <ClInclude Include="UniformWrapper.h" />
+    <ClInclude Include="YetAnotherExample.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

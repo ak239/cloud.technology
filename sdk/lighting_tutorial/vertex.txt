@@ -13,7 +13,8 @@ out vec3 Normal0;
 
 void main()
 {
-    gl_Position = gWVP * vec4(Position, 1.0);
-    TexCoord0   = TexCoord;
+	float coeff = 0.00001 * gWVP * vec4(1.0, 1.0, 0.4, 0.2);
+    gl_Position = gWorld * vec4(Position, 1.0);
+    TexCoord0   = TexCoord + coeff;
     Normal0     = (gWorld * vec4(Normal, 0.0)).xyz;
 }

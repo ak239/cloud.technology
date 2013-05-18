@@ -15,7 +15,7 @@ public:
 		GLContextObj(_context), location(_location){}
 
 	const T& getValue() const{ return val; }
-	
+
 	void setValue(const T& _val){
 		GLContextGetter get(getContext());
 		val = _val;

@@ -33,7 +33,7 @@ void ContextCallbacks::display()
 		TwDraw();
 	}
 
-	glutSwapBuffers();
+	glutSwapBuffers();	
 }
 
 void ContextCallbacks::reshape(int width, int height)

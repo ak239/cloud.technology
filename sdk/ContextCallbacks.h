@@ -35,6 +35,7 @@ public:
 	void close();
 
 	virtual bool hasIdleFunc(){ return false; }
+
 private:
 	virtual void initImpl(){}
 	virtual void idleImpl(){}
