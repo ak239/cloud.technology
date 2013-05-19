@@ -84,10 +84,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clouds\CloudParticle.cpp" />
+    <ClCompile Include="clouds\CloudShader.cpp" />
     <ClCompile Include="clouds\CubemapTexture.cpp" />
     <ClCompile Include="clouds\GameScene.cpp" />
     <ClCompile Include="clouds\Mesh.cpp" />
+    <ClCompile Include="clouds\Simulation.cpp" />
     <ClCompile Include="clouds\Skybox.cpp" />
+    <ClCompile Include="clouds\VolumetricCloud.cpp" />
     <ClCompile Include="ContextCallbacks.cpp" />
     <ClCompile Include="FSShaderProgramLoader.cpp" />
     <ClCompile Include="GLApp.cpp" />
@@ -101,10 +105,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="clouds\CloudParticle.h" />
     <ClInclude Include="clouds\clouds.h" />
+    <ClInclude Include="clouds\CloudShader.h" />
     <ClInclude Include="clouds\CubemapTexture.h" />
+    <ClInclude Include="clouds\VolumetricCloud.h" />
     <ClInclude Include="clouds\GameScene.h" />
     <ClInclude Include="clouds\Mesh.h" />
+    <ClInclude Include="clouds\Simulation.h" />
     <ClInclude Include="clouds\utils.h" />
     <ClInclude Include="PersProjInfo.h" />
     <ClInclude Include="clouds\Primitives.h" />

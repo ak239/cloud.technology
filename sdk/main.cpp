@@ -40,7 +40,7 @@ int main(int args, char* argv[])
 
 	app.glutInitialize(args, argv);
 
-	//GlutWindow wnd = GlutWindow::Fullscreen("1280x1024");
+	//GlutWindow wnd = GlutWindow::Fullscreen("1920x1080");
 	GlutWindow wnd("Main window");
 	wnd.setGeometry(800, 600);
 	wnd.setPosition(300, 300);

@@ -1,7 +1,5 @@
 #include "Skybox.h"
 
-#define SAFE_DELETE(p) if (p) { delete p; p = NULL; }
-
 SkyBox::SkyBox(const GLContext & context, Camera* pCamera,
 			   const PersProjInfo& p) : m_Context(context)
 {

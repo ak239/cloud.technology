@@ -52,7 +52,6 @@ public:
 
 	void moveCamera(const glm::vec3& delta){
 		cameraPos += delta;
-		printf("(%f, %f, %f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
 	}
 
 	void changeAngles(const glm::vec2& delta){
@@ -89,14 +88,11 @@ public:
 	GLfloat getVerticalAngle()   const{ return verticalAngle;   }
 
 	void setVerticalAngle(GLfloat verAngle) {
-		verticalAngle = glm::clamp(verAngle, -glm::pi<float>(), glm::pi<float>());
-		printf("Vertical angle : %f\n", verticalAngle);
+		verticalAngle = glm::clamp(verAngle, -0.5f*glm::pi<float>(), 0.5f*glm::pi<float>());
 	}
 
 	void setHorizontalAngle(GLfloat horAngle){
 		horizontalAngle = horAngle;
-		//horizontalAngle = glm::clamp(horAngle, -glm::pi<float>(), glm::pi<float>());
-		printf("Horizontal angle : %f\n", horizontalAngle);
 	}
 
 	const glm::vec3& getTarget() const{

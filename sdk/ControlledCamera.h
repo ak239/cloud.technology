@@ -61,14 +61,8 @@ public:
 		int DeltaX = x - m_mousePos.x;
 		int DeltaY = y - m_mousePos.y;
 
-		if (getUp().y > 0)
-		{
-			DeltaX = -DeltaX;
-			DeltaY = -DeltaY;
-		}
-
-		setHorizontalAngle(getHorizontalAngle() + (float)DeltaX / 60.0f);
-		setVerticalAngle(getVerticalAngle() + (float)DeltaY / 60.0f);
+		setHorizontalAngle(getHorizontalAngle() - (float)DeltaX / 60.0f);
+		setVerticalAngle(getVerticalAngle() - (float)DeltaY / 60.0f);
 
 		glutWarpPointer(m_mousePos.x, m_mousePos.y);
 	}
