@@ -38,7 +38,7 @@ struct PARTICLE_RENDERSTRUCT{
 	glm::vec3 vecPos; // Coordinates of particle
 	glm::vec2 vecOffset; // Vertex coordinate offsets
 	float u, v; // Texture coordinates
-	DWORD Diffuse; // Diffuse color of particle
+	glm::vec4 Diffuse; // Diffuse color of particle
 };
 
 class CCloudShader{
@@ -54,7 +54,9 @@ private:
 	UniformWrapper<glm::vec4> gUpNormal;
 	UniformWrapper<GLuint>	  gSampler;
 
-
+	GLuint VAO;
+	GLuint VBO;
+	GLuint IB;
 	int						m_iNumParticlesPerBuffer;
 
 public:

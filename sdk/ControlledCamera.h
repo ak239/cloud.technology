@@ -31,21 +31,21 @@ public:
 	void keyboardFunc(unsigned char key, int x, int y){
 		switch(key){
 		case GLUT_KEY_UP:
-			moveCamera(getTarget() * (-glm::vec3(m_Speed)));
+			moveCamera(getTarget() * (glm::vec3(m_Speed)));
 			break;
 		case GLUT_KEY_DOWN:
-			moveCamera(getTarget() * glm::vec3(m_Speed));
+			moveCamera(getTarget() * (-glm::vec3(m_Speed)));
 			break;
 		case GLUT_KEY_LEFT:
 			{
 				glm::vec3 left = glm::normalize(glm::cross(getTarget(), getUp()));
-				moveCamera(left * glm::vec3(m_Speed));
+				moveCamera(left * (-glm::vec3(m_Speed)));
 				break;
 			}
 		case GLUT_KEY_RIGHT:
 			{
 				glm::vec3 right = glm::normalize(glm::cross(getTarget(), getUp()));
-				moveCamera(right * (-glm::vec3(m_Speed)));
+				moveCamera(right * (glm::vec3(m_Speed)));
 				break;
 			}
 		}	

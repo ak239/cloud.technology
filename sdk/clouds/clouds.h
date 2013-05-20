@@ -134,7 +134,11 @@ private:
 		m_gameScene->Setup(getContext());
 
 		for(int i=0; i!= gNumCloud; i++ ) {
-			g_VolumetricCloud[i].AdvanceTime(10.f, 1);
+			g_VolumetricCloud[i].AdvanceTime(100.f, 1);
+		}
+
+		for(int i=0; i!= gNumCloud; i++ ) {
+			g_VolumetricCloud[i].AdvanceTime(101.f, 1);
 		}
 
 		ExitOnGLError("Init failed");

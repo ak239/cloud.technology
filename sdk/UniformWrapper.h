@@ -46,6 +46,12 @@ inline void UniformWrapper<glm::vec3>::syncValue(){
 }
 
 template<>
+inline void UniformWrapper<glm::vec4>::syncValue(){
+	glUniform4f(location, val.x, val.y, val.z, val.w);
+}
+
+
+template<>
 inline void UniformWrapper<GLfloat>::syncValue(){
 	glUniform1f(location, val);
 }
