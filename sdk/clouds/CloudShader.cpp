@@ -104,6 +104,8 @@ bool CCloudShader::Setup( const GLContext& context, CVolumetricCloud* pVolumetri
 
 	glBindVertexArray(0);
 
+	pVBData = new PARTICLE_RENDERSTRUCT[4*m_iNumParticlesPerBuffer];
+
 	return true;
 
 }
@@ -115,6 +117,7 @@ void CCloudShader::Cleanup(){
 	glDeleteBuffers(1, &IB);
 	glDeleteVertexArrays(1, &VAO);
 
+	delete pVBData;
 	delete texture;
 	delete loader;
 }
@@ -135,17 +138,13 @@ void CCloudShader::Render()
 	tm.setProjection(glm::perspective(gPersProjInfo->FOV, gPersProjInfo->Width/gPersProjInfo->Height, gPersProjInfo->zNear, gPersProjInfo->zFar));
 	
 	glm::mat4 mTransform = tm.getTransform();
-	glm::vec4 v = mTransform * glm::vec4(-642.0, 510.0, -788.0, 1.0);
-	//printf("(%f, %f, %f, %f)\n", v.x, v.y, v.z, v.w);
 	gWVP.setValue(mTransform);
-	
+
 	glm::vec4 vecRight = glm::vec4(mTransform[0][0], mTransform[1][0], mTransform[2][0], 0.0f);
 	glm::vec4 vecUp = glm::vec4(mTransform[0][1], mTransform[1][1], mTransform[2][1], 0.0f);
 
 	gRightNormal.setValue(glm::normalize(vecRight));
 	gUpNormal.setValue(glm::normalize(vecUp));
-
-	PARTICLE_RENDERSTRUCT* pVBData = new PARTICLE_RENDERSTRUCT[4*m_iNumParticlesPerBuffer];
 
 	int uNumInBlock = 0;
 	int visibleParticles = 0;
@@ -227,9 +226,11 @@ void CCloudShader::Render()
 		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-		
+
 		glDrawElements(GL_TRIANGLES, 2*uNumInBlock, GL_UNSIGNED_SHORT, (GLvoid*)0);
 	}
+
+	
 	
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);

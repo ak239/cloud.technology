@@ -17,10 +17,10 @@ public:
 	const T& getValue() const{ return val; }
 
 	void setValue(const T& _val){
-		GLContextGetter get(getContext());
+		//GLContextGetter get(getContext());
 		val = _val;
 		syncValue();
-		assert(glGetError() == GL_NO_ERROR);
+		//assert(glGetError() == GL_NO_ERROR);
 	}
 
 private:

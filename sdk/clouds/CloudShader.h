@@ -57,6 +57,7 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint IB;
+	PARTICLE_RENDERSTRUCT* pVBData;
 	int						m_iNumParticlesPerBuffer;
 
 public:

@@ -105,7 +105,6 @@ private:
 		gCamera = new ControlledCamera(width, height);
 		gCamera->setPos(glm::vec3(0.0f, 0.0f, 0.0f));
 		gCamera->setUp(glm::vec3(0.0f, -1.0f, 0.0f));
-		//gCamera->setHorizontalAngle(glm::pi<float>());
 		gCamera->setHorizontalAngle(-1.5917f);
 		gCamera->setVerticalAngle(0.7166f);
 		gCamera->setSpeed(100);
@@ -118,7 +117,7 @@ private:
 		gPersProjInfo->zNear = 1.0f;
 		gPersProjInfo->zFar = 1000.0f; 
 
-		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 
 		fprintf(
 			stdout,
@@ -203,7 +202,7 @@ private:
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 
-		//m_gameScene->Render(0.0,0.0f);
+		m_gameScene->Render(0.0,0.0f);
 
 		for ( int i=0; i<gNumCloud; ++i )
 		{
