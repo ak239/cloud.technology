@@ -121,13 +121,13 @@ void CCloudShader::Cleanup(){
 
 void CCloudShader::Render()
 {
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable( GL_BLEND );
+	glDepthMask(GL_FALSE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	loader->getProgram().use();
 	texture->bind(GL_TEXTURE0);
 	
-
 	TransformMatrix tm;
 	//glm::mat4 mCamera = glm::lookAt(gCamera->getPos(), glm::vec3(-642.0, 510.0, -788.0), gCamera->getUp());
 	glm::mat4 mCamera = gCamera->cameraMat();
@@ -194,10 +194,10 @@ void CCloudShader::Render()
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)0);
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)12);
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)20);
-				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
+				glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
 
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-				
+
 				glDrawElements(GL_TRIANGLES, 2*m_iNumParticlesPerBuffer, GL_UNSIGNED_SHORT, (GLvoid*)0);
 
 				uNumInBlock = 0;
@@ -224,12 +224,13 @@ void CCloudShader::Render()
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)12);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)20);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 		
 		glDrawElements(GL_TRIANGLES, 2*uNumInBlock, GL_UNSIGNED_SHORT, (GLvoid*)0);
 	}
 	
-	
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
 }

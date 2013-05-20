@@ -46,7 +46,7 @@ struct SunColor
 };
 
 SunColor    g_SunColor = {1.0f,1.0f,1.0f};
-float       g_fSunColorIntensity = 3.4f;
+float       g_fSunColorIntensity = 1.4f;
 float       g_fWindVelocity = 40.f;
 
 
@@ -105,7 +105,9 @@ private:
 		gCamera = new ControlledCamera(width, height);
 		gCamera->setPos(glm::vec3(0.0f, 0.0f, 0.0f));
 		gCamera->setUp(glm::vec3(0.0f, -1.0f, 0.0f));
-		gCamera->setHorizontalAngle(glm::pi<float>());
+		//gCamera->setHorizontalAngle(glm::pi<float>());
+		gCamera->setHorizontalAngle(-1.5917f);
+		gCamera->setVerticalAngle(0.7166f);
 		gCamera->setSpeed(100);
 		gCamera->Update();
 
@@ -116,7 +118,7 @@ private:
 		gPersProjInfo->zNear = 1.0f;
 		gPersProjInfo->zFar = 1000.0f; 
 
-		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
 
 		fprintf(
 			stdout,
@@ -129,6 +131,9 @@ private:
 		glFrontFace(GL_CW);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_POINT_SPRITE);
 
 		InitCloud(false);
 
@@ -195,8 +200,10 @@ private:
 
 	void displayImpl() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
 
-		m_gameScene->Render(0.0,0.0f);
+		//m_gameScene->Render(0.0,0.0f);
 
 		for ( int i=0; i<gNumCloud; ++i )
 		{

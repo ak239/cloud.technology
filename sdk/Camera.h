@@ -89,10 +89,12 @@ public:
 
 	void setVerticalAngle(GLfloat verAngle) {
 		verticalAngle = glm::clamp(verAngle, -0.5f*glm::pi<float>(), 0.5f*glm::pi<float>());
+		//printf("Vertical angle : %f\n", verticalAngle);
 	}
 
 	void setHorizontalAngle(GLfloat horAngle){
 		horizontalAngle = horAngle;
+		//printf("Horizontal angle : %f\n", horizontalAngle);
 	}
 
 	const glm::vec3& getTarget() const{

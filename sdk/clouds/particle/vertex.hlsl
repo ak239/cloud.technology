@@ -15,10 +15,10 @@ out vec2 outTex;
 
 void main()
 {
+	outColor = Color;
 	vec4 outPosition = vec4(Position.xyz, 1.0) + Offset.x*rightNormal + Offset.y*upNormal;
 	outPosition.w = 1.0;
 	outPosition = gWVP * outPosition;
-	outColor = Color;
 	outTex = Tex;
 	gl_Position = outPosition;
 }
