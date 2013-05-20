@@ -97,7 +97,7 @@ bool CCloudShader::Setup( const GLContext& context, CVolumetricCloud* pVolumetri
 		indices[i*6+5] = (unsigned short)i * 4 + 1;
 	}
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*m_iNumParticlesPerBuffer*sizeof(unsigned short), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*m_iNumParticlesPerBuffer*sizeof(unsigned short), indices, GL_DYNAMIC_DRAW);
 	
 	delete indices;
 	ExitOnGLError("CloudShader : Can't create VBO");
@@ -121,6 +121,9 @@ void CCloudShader::Cleanup(){
 
 void CCloudShader::Render()
 {
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable( GL_BLEND );
+
 	loader->getProgram().use();
 	texture->bind(GL_TEXTURE0);
 	
@@ -155,29 +158,31 @@ void CCloudShader::Render()
 			pVBData[4*uNumInBlock].vecPos = *( pCurParticle->GetPositionFromLastBuffer() );
 			pVBData[4*uNumInBlock].vecOffset = glm::vec2(-m_fParticleSize,m_fParticleSize);
 			pVBData[4*uNumInBlock].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[4*uNumInBlock].u = 0.0f; pVBData[0].v = 0.0f;
+			pVBData[4*uNumInBlock].u = 0.0f; 
+			pVBData[4*uNumInBlock].v = 0.0f;
 					
 			pVBData[4*uNumInBlock+1].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
 			pVBData[4*uNumInBlock+1].vecOffset = glm::vec2(m_fParticleSize, m_fParticleSize);
 			pVBData[4*uNumInBlock+1].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[4*uNumInBlock+1].u = 1.0f; pVBData[1].v = 0.0f;
+			pVBData[4*uNumInBlock+1].u = 1.0f; 
+			pVBData[4*uNumInBlock+1].v = 0.0f;
 					
 			pVBData[4*uNumInBlock+2].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
 			pVBData[4*uNumInBlock+2].vecOffset = glm::vec2(-m_fParticleSize, -m_fParticleSize);
 			pVBData[4*uNumInBlock+2].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[4*uNumInBlock+2].u = 0.0f; pVBData[2].v = 1.0f;
+			pVBData[4*uNumInBlock+2].u = 0.0f; 
+			pVBData[4*uNumInBlock+2].v = 1.0f;
 					
 			pVBData[4*uNumInBlock+3].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
 			pVBData[4*uNumInBlock+3].vecOffset = glm::vec2(m_fParticleSize, -m_fParticleSize);
 			pVBData[4*uNumInBlock+3].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[4*uNumInBlock+3].u = 1.0f; pVBData[3].v = 1.0f;
+			pVBData[4*uNumInBlock+3].u = 1.0f; 
+			pVBData[4*uNumInBlock+3].v = 1.0f;
 
 			uNumInBlock ++;
 			visibleParticles ++;
 			if (uNumInBlock >= m_iNumParticlesPerBuffer)
 			{
-				
-				
 				glBindVertexArray(VAO);
 				glBindBuffer(GL_ARRAY_BUFFER, VBO);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, 4*m_iNumParticlesPerBuffer*sizeof(PARTICLE_RENDERSTRUCT), pVBData);
@@ -191,6 +196,7 @@ void CCloudShader::Render()
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)20);
 				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
 
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 				
 				glDrawElements(GL_TRIANGLES, 2*m_iNumParticlesPerBuffer, GL_UNSIGNED_SHORT, (GLvoid*)0);
 
@@ -202,14 +208,26 @@ void CCloudShader::Render()
 		pCurParticle = Enumerator.NextParticleFromLastBuffer();
 	}
 
-	printf("Visible particles : %d\n", visibleParticles);
+	//printf("Visible particles : %d\n", visibleParticles);
 
 	if (uNumInBlock != 0)
 	{
+		glBindVertexArray(VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, 4*uNumInBlock*sizeof(PARTICLE_RENDERSTRUCT), pVBData);
 
-		glBindVertexArray(VAO);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)12);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)20);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+		
 		glDrawElements(GL_TRIANGLES, 2*uNumInBlock, GL_UNSIGNED_SHORT, (GLvoid*)0);
 	}
 	

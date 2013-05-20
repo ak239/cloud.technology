@@ -66,6 +66,7 @@ CloudPosSize g_Cloud[]={
 	{-750.0f, CLOUD_POSY, -350.0f, 600.f,200.f,130.f},
 	{-300.0f, CLOUD_POSY1, -100.0f, 300.f,200.f,80.f},
 	{-250.0f, CLOUD_POSY, -300.0f, 900.f,200.f,70.f},
+	
 	{-100.0f, CLOUD_POSY2, -250.0f, 400.f,200.f,140.f},
 
 	{-900.0f, CLOUD_POSY1, -800.0f, 600.f,400.f,80.f},

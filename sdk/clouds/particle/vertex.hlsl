@@ -20,6 +20,5 @@ void main()
 	outPosition = gWVP * outPosition;
 	outColor = Color;
 	outTex = Tex;
-
 	gl_Position = outPosition;
 }
