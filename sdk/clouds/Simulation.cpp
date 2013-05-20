@@ -240,8 +240,8 @@ float CSimulationSpace::GetCellDensity( int i, int j, int k )
 {
 	int index = INDEX( i, j, k );
 	if( ( index < 0 )||( index >= (int)m_uTotalNumCells ) ) return 0;
-	return m_pCurrentDensitySpace[index];
-	//return (rand() % 100001) / 100000.0f;
+	//return m_pCurrentDensitySpace[index];
+	return (rand() % 100001) / 100000.0f;
 }
 
 

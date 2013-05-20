@@ -40,7 +40,9 @@ bool FSShaderProgramLoader::loadProgramImpl(const GLContext& context)
 				type = GL_FRAGMENT_SHADER;
 			}else
 				continue;
-			processFile(filePath, type);
+			if (!processFile(filePath, type)) {
+				return false;
+			}
 		}
 	}
 
@@ -54,7 +56,7 @@ bool FSShaderProgramLoader::loadProgramImpl(const GLContext& context)
 	return true;
 }
 
-void FSShaderProgramLoader::processFile(const boost::filesystem::path p, GLenum type)
+bool FSShaderProgramLoader::processFile(const boost::filesystem::path p, GLenum type)
 {
 	using namespace boost::filesystem;
 
@@ -62,7 +64,7 @@ void FSShaderProgramLoader::processFile(const boost::filesystem::path p, GLenum 
 	file.open(canonical(p).generic_string(), std::ofstream::in);
 	if (!file.is_open()){
 		setLastError(getLastError() + "\r\n" + "Can't open file: " + std::string(canonical(p).generic_string()));
-		return;
+		return false;
 	}
 
 	std::string str;
@@ -76,8 +78,9 @@ void FSShaderProgramLoader::processFile(const boost::filesystem::path p, GLenum 
 	Shader shader(text, type);
 	if (!shader.compile()){
 		setLastError(getLastError() + "\r\n" + "Can't compile shader (" + std::string(p.generic_string()) + "): " + shader.getLastError());
-		return;
+		return false;
 	}
 
 	tmpProgram.attachShader(shader);
+	return true;
 }

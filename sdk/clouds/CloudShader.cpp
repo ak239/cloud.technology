@@ -64,6 +64,7 @@ bool CCloudShader::Setup( const GLContext& context, CVolumetricCloud* pVolumetri
 	}
 
 	// load texture
+	gSampler.setValue(0);
 	texture = new Texture(context, GL_TEXTURE_2D, m_pVolumetricCloud->m_szTextureFile);
 	if (!texture->load()) {
 		std::cerr << "Can't load texture: " << texture->getLastError();
@@ -101,6 +102,8 @@ bool CCloudShader::Setup( const GLContext& context, CVolumetricCloud* pVolumetri
 	delete indices;
 	ExitOnGLError("CloudShader : Can't create VBO");
 
+	glBindVertexArray(0);
+
 	return true;
 
 }
@@ -120,12 +123,17 @@ void CCloudShader::Render()
 {
 	loader->getProgram().use();
 	texture->bind(GL_TEXTURE0);
+	
 
 	TransformMatrix tm;
-	tm.setCamera(gCamera->cameraMat());
+	//glm::mat4 mCamera = glm::lookAt(gCamera->getPos(), glm::vec3(-642.0, 510.0, -788.0), gCamera->getUp());
+	glm::mat4 mCamera = gCamera->cameraMat();
+	tm.setCamera(mCamera);
 	tm.setProjection(glm::perspective(gPersProjInfo->FOV, gPersProjInfo->Width/gPersProjInfo->Height, gPersProjInfo->zNear, gPersProjInfo->zFar));
 	
 	glm::mat4 mTransform = tm.getTransform();
+	glm::vec4 v = mTransform * glm::vec4(-642.0, 510.0, -788.0, 1.0);
+	//printf("(%f, %f, %f, %f)\n", v.x, v.y, v.z, v.w);
 	gWVP.setValue(mTransform);
 	
 	glm::vec4 vecRight = glm::vec4(mTransform[0][0], mTransform[1][0], mTransform[2][0], 0.0f);
@@ -137,48 +145,53 @@ void CCloudShader::Render()
 	PARTICLE_RENDERSTRUCT* pVBData = new PARTICLE_RENDERSTRUCT[4*m_iNumParticlesPerBuffer];
 
 	int uNumInBlock = 0;
+	int visibleParticles = 0;
 	CParticleEnumerator Enumerator( & m_pVolumetricCloud->m_ParticlePool );
 	CloudParticle *pCurParticle = Enumerator.NextParticleFromLastBuffer();
 	while( pCurParticle )
 	{
 		if( pCurParticle->m_bVisible )
 		{
-			pVBData[uNumInBlock].vecPos = *( pCurParticle->GetPositionFromLastBuffer() );
-			pVBData[uNumInBlock].vecOffset = glm::vec2(-m_fParticleSize,m_fParticleSize);
-			pVBData[uNumInBlock].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[uNumInBlock].u = 0.0f; pVBData[0].v = 0.0f;
-
-			pVBData[uNumInBlock+1].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
-			pVBData[uNumInBlock+1].vecOffset = glm::vec2(m_fParticleSize, m_fParticleSize);
-			pVBData[uNumInBlock+1].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[uNumInBlock+1].u = 1.0f; pVBData[1].v = 0.0f;
-
-			pVBData[uNumInBlock+2].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
-			pVBData[uNumInBlock+2].vecOffset = glm::vec2(-m_fParticleSize, -m_fParticleSize);
-			pVBData[uNumInBlock+2].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[uNumInBlock+2].u = 0.0f; pVBData[2].v = 1.0f;
-
-			pVBData[uNumInBlock+3].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
-			pVBData[uNumInBlock+3].vecOffset = glm::vec2(m_fParticleSize, -m_fParticleSize);
-			pVBData[uNumInBlock+3].Diffuse = pCurParticle->m_cScatteringColor;
-			pVBData[uNumInBlock+3].u = 1.0f; pVBData[3].v = 1.0f;
+			pVBData[4*uNumInBlock].vecPos = *( pCurParticle->GetPositionFromLastBuffer() );
+			pVBData[4*uNumInBlock].vecOffset = glm::vec2(-m_fParticleSize,m_fParticleSize);
+			pVBData[4*uNumInBlock].Diffuse = pCurParticle->m_cScatteringColor;
+			pVBData[4*uNumInBlock].u = 0.0f; pVBData[0].v = 0.0f;
+					
+			pVBData[4*uNumInBlock+1].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
+			pVBData[4*uNumInBlock+1].vecOffset = glm::vec2(m_fParticleSize, m_fParticleSize);
+			pVBData[4*uNumInBlock+1].Diffuse = pCurParticle->m_cScatteringColor;
+			pVBData[4*uNumInBlock+1].u = 1.0f; pVBData[1].v = 0.0f;
+					
+			pVBData[4*uNumInBlock+2].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
+			pVBData[4*uNumInBlock+2].vecOffset = glm::vec2(-m_fParticleSize, -m_fParticleSize);
+			pVBData[4*uNumInBlock+2].Diffuse = pCurParticle->m_cScatteringColor;
+			pVBData[4*uNumInBlock+2].u = 0.0f; pVBData[2].v = 1.0f;
+					
+			pVBData[4*uNumInBlock+3].vecPos =  *( pCurParticle->GetPositionFromLastBuffer() );
+			pVBData[4*uNumInBlock+3].vecOffset = glm::vec2(m_fParticleSize, -m_fParticleSize);
+			pVBData[4*uNumInBlock+3].Diffuse = pCurParticle->m_cScatteringColor;
+			pVBData[4*uNumInBlock+3].u = 1.0f; pVBData[3].v = 1.0f;
 
 			uNumInBlock ++;
+			visibleParticles ++;
 			if (uNumInBlock >= m_iNumParticlesPerBuffer)
 			{
+				
+				
+				glBindVertexArray(VAO);
 				glBindBuffer(GL_ARRAY_BUFFER, VBO);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, 4*m_iNumParticlesPerBuffer*sizeof(PARTICLE_RENDERSTRUCT), pVBData);
 				glEnableVertexAttribArray(0);
 				glEnableVertexAttribArray(1);
 				glEnableVertexAttribArray(2);
 				glEnableVertexAttribArray(3);
-				
+
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)0);
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)12);
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)20);
 				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PARTICLE_RENDERSTRUCT), (const GLvoid*)28);
 
-				glBindVertexArray(VAO);
+				
 				glDrawElements(GL_TRIANGLES, 2*m_iNumParticlesPerBuffer, GL_UNSIGNED_SHORT, (GLvoid*)0);
 
 				uNumInBlock = 0;
@@ -188,6 +201,8 @@ void CCloudShader::Render()
 		// Go to next particle
 		pCurParticle = Enumerator.NextParticleFromLastBuffer();
 	}
+
+	printf("Visible particles : %d\n", visibleParticles);
 
 	if (uNumInBlock != 0)
 	{

@@ -20,6 +20,6 @@ private:
 	std::string   folder;
 	ShaderProgram tmpProgram;
 
-	void processFile(const boost::filesystem::path p, GLenum type);  
+	bool processFile(const boost::filesystem::path p, GLenum type);  
 };
 

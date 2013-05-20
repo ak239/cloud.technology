@@ -46,7 +46,7 @@ struct SunColor
 };
 
 SunColor    g_SunColor = {1.0f,1.0f,1.0f};
-float       g_fSunColorIntensity = 1.4f;
+float       g_fSunColorIntensity = 3.4f;
 float       g_fWindVelocity = 40.f;
 
 
@@ -86,6 +86,7 @@ static bool CompareViewDistance2( CVolumetricCloud* pCloud1, CVolumetricCloud* p
 class Clouds : public ContextCallbacks {
 public:
 	Clouds() {
+
 	}
 
 	~Clouds(){
@@ -104,15 +105,15 @@ private:
 		gCamera->setPos(glm::vec3(0.0f, 0.0f, 0.0f));
 		gCamera->setUp(glm::vec3(0.0f, -1.0f, 0.0f));
 		gCamera->setHorizontalAngle(glm::pi<float>());
-		gCamera->setSpeed(1);
+		gCamera->setSpeed(100);
 		gCamera->Update();
 
 		gPersProjInfo = new PersProjInfo();
 		gPersProjInfo->FOV = 60.0f;
 		gPersProjInfo->Height = (float)height;
 		gPersProjInfo->Width = (float)width;
-		gPersProjInfo->zNear = 0.1f;
-		gPersProjInfo->zFar = 100.0f; 
+		gPersProjInfo->zNear = 1.0f;
+		gPersProjInfo->zFar = 1000.0f; 
 
 		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 
@@ -133,14 +134,12 @@ private:
 		m_gameScene = new CGameScene();
 		m_gameScene->Setup(getContext());
 
-		for(int i=0; i!= gNumCloud; i++ ) {
-			g_VolumetricCloud[i].AdvanceTime(100.f, 1);
+		for (int fTime = 0; fTime < 2; fTime ++){
+			for(int i=0; i!= gNumCloud; i++ ) {
+				g_VolumetricCloud[i].AdvanceTime((float)fTime, 1);
+			}
 		}
-
-		for(int i=0; i!= gNumCloud; i++ ) {
-			g_VolumetricCloud[i].AdvanceTime(101.f, 1);
-		}
-
+		
 		ExitOnGLError("Init failed");
 
 	}
@@ -177,7 +176,7 @@ private:
 		Cloud.fCellSize = g_CellSize;//1.5;
 		Cloud.fEvolvingSpeed = (float)(1.0-g_CloudEvolvingSpeed);
 
-		sprintf_s(Cloud.szTextureFile,MAX_PATH, "%s", "metaball.dds");
+		sprintf_s(Cloud.szTextureFile,MAX_PATH, "%s", "metaball.tga");
 
 		g_v_pClouds.clear();
 		for (int i = 0; i < gNumCloud; i++)

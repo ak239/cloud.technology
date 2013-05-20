@@ -18,6 +18,7 @@ public:
 			SOIL_LOAD_AUTO, 
 			SOIL_CREATE_NEW_ID,
 			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+			//SOIL_FLAG_DDS_LOAD_DIRECT
 			);
 		if (tmpTexId == 0){
 			lastError = std::string("SOIL Error: ") + SOIL_last_result();
@@ -38,7 +39,7 @@ public:
 		glBindTexture(target, texId); 
 	}
 
-	~Texture(void){}
+	virtual ~Texture(void){}
 
 	const std::string& getLastError() const{ return lastError; }
 
