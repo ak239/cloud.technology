@@ -42,9 +42,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="UniformWrapper.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="clouds\GameScene.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -161,8 +158,5 @@
     <ClInclude Include="nvImage.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="negx.dds" />
   </ItemGroup>
 </Project>

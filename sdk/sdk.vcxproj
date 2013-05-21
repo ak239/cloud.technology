@@ -105,7 +105,6 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderProgramLoader.cpp" />
-    <ClCompile Include="UniformWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -136,9 +135,6 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TransformMatrix.h" />
     <ClInclude Include="UniformWrapper.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="negx.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
