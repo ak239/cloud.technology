@@ -5,23 +5,25 @@
 #include "gl.h"
 
 #include "ContextCallbacks.h"
+#include "PersProjInfo.h"
 
 struct GLContextData
 {
-	GLContextData():camera(0), isTweakBarInit(false), callbacks(0){}
+	GLContextData():camera(0), isTweakBarInit(false), callbacks(0), projInfo(0){}
 	Camera* camera;
 	bool    isTweakBarInit;
-	
+		
 	ContextCallbacks* callbacks;
+	PersProjInfo*     projInfo;
 
 	~GLContextData(){
 		delete camera;
+		delete projInfo;
 	}
 };
 
 const int GLContext::INVALID_CONTEXT = -1;
-boost::unordered_map<int, GLContext::CallbackHolder> GLContext::Callbacks;
-boost::unordered_map<int, GLContextData*> GLContext::Datas;
+std::vector<GLContextData*> GLContext::VecDatas(128);
 
 /*
 * Context Getter
@@ -46,12 +48,17 @@ GLContextGetter::~GLContextGetter()
 */
 GLContext::GLContext(int _windowId):windowId(_windowId)
 {
-	auto it = Datas.find(windowId);
-	if (it == Datas.end()){
+	if (windowId == INVALID_CONTEXT){
+		data = 0;
+		return;
+	}
+
+	assert(static_cast<int>(VecDatas.size()) > windowId);
+	if (!VecDatas[windowId]){
 		data = new GLContextData();
-		Datas.insert(std::make_pair(windowId, data));
+		VecDatas[windowId] = data;
 	}else
-		data = it->second;	
+		data = VecDatas[windowId];
 }
 
 int GLContext::getWindowId() const
@@ -100,6 +107,16 @@ Camera* GLContext::getCamera() const
 	return data->camera;
 }
 
+void GLContext::setPersProjInfo(PersProjInfo* _info)
+{
+	data->projInfo = _info;
+}
+
+PersProjInfo* GLContext::getPersProjInfo() const
+{
+	return data->projInfo;
+}
+
 GLContext GLContext::getCurrentContext()
 {
 	return GLContext(glutGetWindow());
@@ -114,11 +131,9 @@ void GLContext::displayFunc()
 
 void GLContext::idleFunc()
 {
-	for (auto it = Datas.begin(); it != Datas.end(); ++it){
-		ContextCallbacks* callbacks = it->second->callbacks;
-		if (callbacks && callbacks->hasIdleFunc())
-			callbacks->idle();
-	}
+	for (std::size_t i = 0; i < VecDatas.size(); ++i)
+		if (VecDatas[i] && VecDatas[i]->callbacks->hasIdleFunc())
+			VecDatas[i]->callbacks->idle();
 }
 
 void GLContext::reshapeFunc(int width, int height)
@@ -169,8 +184,6 @@ void GLContext::closeFunc()
 	if (context.data->callbacks)
 		context.data->callbacks->close();
 
-	Datas.erase(context.windowId);
-	if (Datas.empty())
-		TwTerminate();
+	VecDatas[context.windowId] = 0;
 }
 

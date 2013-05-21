@@ -33,8 +33,6 @@
 
 using namespace std;
 
-extern PersProjInfo*      gPersProjInfo;
-
 CCloudShader::CCloudShader()
 {
 }
@@ -124,6 +122,8 @@ void CCloudShader::Cleanup(){
 
 void CCloudShader::Render()
 {
+	PersProjInfo* projInfo = GLContext::getCurrentContext().getPersProjInfo();
+
 	glEnable( GL_BLEND );
 	glDepthMask(GL_FALSE);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -136,7 +136,7 @@ void CCloudShader::Render()
 	GLContext context = GLContext::getCurrentContext();
 	glm::mat4 mCamera = context.getCamera()->cameraMat();
 	tm.setCamera(mCamera);
-	tm.setProjection(glm::perspective(gPersProjInfo->FOV, gPersProjInfo->Width/gPersProjInfo->Height, gPersProjInfo->zNear, gPersProjInfo->zFar));
+	tm.setProjection(glm::perspective(projInfo->FOV, projInfo->Width/projInfo->Height, projInfo->zNear, projInfo->zFar));
 
 	glm::mat4 mTransform = tm.getTransform();
 	gWVP.setValue(mTransform);

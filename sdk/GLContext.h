@@ -1,13 +1,13 @@
 #pragma once
 
-#include <boost/unordered_map.hpp>
-#include <boost/shared_ptr.hpp>
+#include <vector>
 
 #include "Camera.h"
 
 class ContextCallbacks;
 
 struct GLContextData;
+struct PersProjInfo;
 
 /**
 *  Store GL context
@@ -28,6 +28,9 @@ public:
 	void setCamera(Camera* _camera);
 	Camera* getCamera() const;
 
+	void setPersProjInfo(PersProjInfo* _info);
+	PersProjInfo* getPersProjInfo() const;
+
 	static GLContext getCurrentContext();
 
 	static const int INVALID_CONTEXT;
@@ -47,9 +50,7 @@ private:
 
 	GLContextData* data;
 
-	typedef boost::shared_ptr<ContextCallbacks> CallbackHolder;
-	static boost::unordered_map<int, CallbackHolder> Callbacks;
-	static boost::unordered_map<int, GLContextData*> Datas;
+	static std::vector<GLContextData*> VecDatas;
 };
 
 /**
