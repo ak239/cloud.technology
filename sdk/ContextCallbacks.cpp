@@ -49,8 +49,9 @@ void ContextCallbacks::reshape(int width, int height)
 void ContextCallbacks::mouse(int button, int state, int x, int y)
 {
 	GLContextGetter get(context);
-	if (context.getIsInitTweakBars())
+	if (context.getIsInitTweakBars()) {
 		TwEventMouseButtonGLUT(button, state, x, y);
+	}
 	mouseImpl(button, state, x, y);
 }
 

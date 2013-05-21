@@ -134,6 +134,15 @@ private:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_POINT_SPRITE);
+		
+		//tweakbar
+		m_TwBar = TwNewBar("Menu");
+		TwDefine("Menu color='0 0 0' alpha=128 position='10 10' size='200 150'");
+		TwDefine("Menu fontresizable=false resizable=false");
+
+		TwAddVarRW(m_TwBar, "sunColorIntensity", TW_TYPE_FLOAT, &g_fSunColorIntensity, "label='Sun color intensity'");
+		TwAddVarRW(m_TwBar, "sunColor", TW_TYPE_COLOR3F, &g_SunColor, "label='Sun light color'");
+		TwAddVarRW(m_TwBar, "cellSize", TW_TYPE_FLOAT, &g_CellSize, "label='Cell size' step=1 min=4 max=20");
 
 		InitCloud(false);
 
@@ -250,4 +259,5 @@ private:
 
 private:
 	CGameScene* m_gameScene;
+	TwBar* m_TwBar;
 };
