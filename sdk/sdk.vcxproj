@@ -98,6 +98,8 @@
     <ClCompile Include="GLContext.cpp" />
     <ClCompile Include="GlutWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nvImage.cpp" />
+    <ClCompile Include="nvImageDDS.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderProgramLoader.cpp" />
@@ -114,6 +116,7 @@
     <ClInclude Include="clouds\Mesh.h" />
     <ClInclude Include="clouds\Simulation.h" />
     <ClInclude Include="clouds\utils.h" />
+    <ClInclude Include="nvImage.h" />
     <ClInclude Include="PersProjInfo.h" />
     <ClInclude Include="clouds\Primitives.h" />
     <ClInclude Include="clouds\Skybox.h" />
