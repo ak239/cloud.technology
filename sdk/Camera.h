@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include "gl.h"
 
 class Camera
 {

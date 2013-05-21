@@ -6,8 +6,14 @@
 
 #include "ContextCallbacks.h"
 
+struct GLContextData
+{
+	Camera* camera;
+};
+
 const int GLContext::INVALID_CONTEXT = -1;
 boost::unordered_map<int, GLContext::CallbackHolder> GLContext::Callbacks;
+boost::unordered_map<int, GLContextData*> GLContext::Datas;
 
 GLContextGetter::GLContextGetter(const GLContext& context):oldWindowId(glutGetWindow()), hasAntBar(context.getIsInitTweakBars())
 {
@@ -26,6 +32,7 @@ GLContextGetter::~GLContextGetter()
 
 GLContext::GLContext(int _windowId):windowId(_windowId), isTweakBarsInit(false)
 {
+	if (
 }
 
 int GLContext::getWindowId() const

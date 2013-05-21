@@ -102,6 +102,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nvImage.cpp" />
     <ClCompile Include="nvImageDDS.cpp" />
+    <ClCompile Include="nvModel.cpp" />
+    <ClCompile Include="nvModelObj.cpp" />
+    <ClCompile Include="nvModelQuery.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderProgramLoader.cpp" />
@@ -119,6 +122,7 @@
     <ClInclude Include="clouds\Simulation.h" />
     <ClInclude Include="clouds\utils.h" />
     <ClInclude Include="nvImage.h" />
+    <ClInclude Include="nvModel.h" />
     <ClInclude Include="PersProjInfo.h" />
     <ClInclude Include="clouds\Primitives.h" />
     <ClInclude Include="clouds\Skybox.h" />

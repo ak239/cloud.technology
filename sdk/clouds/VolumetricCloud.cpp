@@ -26,10 +26,9 @@
 #include "VolumetricCloud.h"
 #include "Simulation.h"
 #include "../ControlledCamera.h"
+#include "../GLContext.h"
 
 using namespace std;
-
-extern ControlledCamera*  gCamera;
 
 const int iMaxColorInterval = 1000;
 
@@ -85,7 +84,8 @@ bool CVolumetricCloud::Setup( GLContext const & context, Environment *Env, Cloud
 	m_vSunlightDir = glm::normalize(m_vSunlightDir);
 
 	//m_vViewpoint = *g_pvViewpoint;
-	m_vViewpoint = gCamera->getPos();
+	Camera* camera = GLContext::getCurrentContext().getCamera();
+	m_vViewpoint = camera->getPos();
 
 	m_Simulator.Setup( m_iLength, m_iWidth, m_iHigh );
 	GenerateCloudParticles();
@@ -244,7 +244,8 @@ void CVolumetricCloud::AdvanceTime(double fTime, int interval)
 	//Double buffer: switch buffer index between 0 and 1. 
 	m_ParticlePool.m_iCurrentBuffer = 1 - m_ParticlePool.m_iCurrentBuffer;
 
-	m_vViewpoint = gCamera->getPos();
+	Camera* camera = GLContext::getCurrentContext().getCamera();
+	m_vViewpoint = camera->getPos();
 
 	// change cloud density
 	if (m_fEvolvingSpeed != 1.0) // if not pause evolving
@@ -258,7 +259,7 @@ void CVolumetricCloud::AdvanceTime(double fTime, int interval)
 	}
 
 	UpdateCloudPosition( fTime );
-	SortCloudParticles(gCamera->getTarget());    
+	SortCloudParticles(camera->getTarget());    
 
 	if ((m_iColorUpdateInterval[m_ParticlePool.m_iCurrentBuffer]%interval) == 0)
 		UpdateCloudParticleColors();

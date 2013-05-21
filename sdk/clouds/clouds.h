@@ -21,6 +21,7 @@
 #include <glm\ext.hpp>
 #include <thread>
 #include <memory>
+#include "../nvModel.h"
 
 ControlledCamera* gCamera;
 
@@ -80,6 +81,12 @@ CloudPosSize g_Cloud[]={
 	{-200.0f, CLOUD_POSY, -900.0f, 400.f,100.f,80.f},
 };
 
+//vertex buffer objects and texture buffers used for rendering
+GLuint textures[2];
+GLuint textureBuffers[2];
+GLuint vbo;
+GLuint indexBuffer[2];
+
 static bool CompareViewDistance2( CVolumetricCloud* pCloud1, CVolumetricCloud* pCloud2)
 {
 	return ( pCloud1->GetViewDistance() > pCloud2->GetViewDistance() );
@@ -134,12 +141,114 @@ private:
 
 	void initImpl(){
 		setupGL();
-	
+
+		//nv::Model model;
+		//if (!model.loadModelFromFile("D:\\Develop\\nir\\sdk\\sdk\\Su-37_Terminator\\Su-37_Terminator.obj"))
+		//	fprintf(stderr, "Obj load error!\r\n");
+
+
+		//glGenTextures(2, textures);
+		//glGenBuffers( 2, textureBuffers);
+		//glGenBuffers( 2, indexBuffer);
+		//glGenBuffers( 1, &vbo);
+
+		//compute the model dimensions
+		//nv::vec3f minPos, maxPos;
+
+		//model->computeBoundingBox( minPos, maxPos);
+		//center = (minPos + maxPos) * 0.5f;
+		//diameter = nv::length( maxPos - minPos);
+
+		//manipulator.setDollyPosition( -1.5f * diameter);
+
+		//create and fill the texture buffers
+
+		//vertex texture buffer first
+		//glBindBuffer( GL_TEXTURE_BUFFER_EXT, textureBuffers[0]);
+
+		// must pad positions to size 4 for texbo efficiency
+		//if ( model->getPositionSize() == 3) {
+  //      
+		//	float *tempPos = new float[model->getPositionCount() * 4];
+		//	const float *src = model->getPositions();
+		//	float *dst = tempPos;
+		//	for (int ii = 0; ii<model->getPositionCount(); ii++) {
+		//		*dst++ = *src++;
+		//		*dst++ = *src++;
+		//		*dst++ = *src++;
+		//		*dst++ = 1.0f;
+		//	}
+		//	glBufferData( GL_TEXTURE_BUFFER_EXT, 4 * model->getPositionCount() * sizeof(float), tempPos, GL_STATIC_DRAW);
+		//	delete []tempPos;
+		//}
+		//else {
+		//	glBufferData( GL_TEXTURE_BUFFER_EXT, model->getPositionSize() * model->getPositionCount() * sizeof(float), model->getPositions(), GL_STATIC_DRAW);
+		//}
+		//glBindTexture( GL_TEXTURE_BUFFER_EXT, textures[0]);
+		//glTexBufferEXT( GL_TEXTURE_BUFFER_EXT, GL_RGBA32F_ARB, textureBuffers[0]);
+
+		//normal texture buffer first
+		//glBindBuffer( GL_TEXTURE_BUFFER_EXT, textureBuffers[1]);
+		// must pad normals to size 4 for texbo efficiency
+		//if ( model->getNormalSize() == 3) {
+		//	float *tempNorm = new float[model->getNormalCount() * 4];
+		//	const float *src = model->getNormals();
+		//	float *dst = tempNorm;
+		//	for (int ii = 0; ii<model->getNormalCount(); ii++) {
+		//		*dst++ = *src++;
+		//		*dst++ = *src++;
+		//		*dst++ = *src++;
+		//		*dst++ = 1.0f;
+		//	}
+		//	glBufferData( GL_TEXTURE_BUFFER_EXT, 4 * model->getNormalCount() * sizeof(float), tempNorm, GL_STATIC_DRAW);
+		//	delete []tempNorm;
+		//}
+		//else {
+		//	glBufferData( GL_TEXTURE_BUFFER_EXT, model->getNormalSize() * model->getNormalCount() * sizeof(float), model->getNormals(), GL_STATIC_DRAW);
+		//}
+		//glBindTexture( GL_TEXTURE_BUFFER_EXT, textures[1]);
+		//glTexBufferEXT( GL_TEXTURE_BUFFER_EXT, GL_RGBA32F_ARB, textureBuffers[1]);
+
+		////create the index list
+		//float *indices = new float[ model.getIndexCount() * 2];
+
+		//const GLuint *vtxIndex = model.getPositionIndices();
+		//const GLuint *nrmIndex = model.getNormalIndices();
+		//float *wlk = indices;
+
+		//for (int ii=0; ii<model.getIndexCount(); ii++) {
+		//	*wlk++ = (float)*vtxIndex++;
+		//	*wlk++ = (float)*nrmIndex++;
+		//}
+
+		//glBindBuffer( GL_ARRAY_BUFFER, indexBuffer[0]);
+		//glBufferData( GL_ARRAY_BUFFER, sizeof(GLuint) * model.getIndexCount() * 2, indices, GL_STATIC_DRAW);
+
+		//delete []indices;
+
+		////now, compute a compiled model or reference
+		//model.compileModel();
+
+		//// load the vertex data for the compiled model
+		//glBindBuffer( GL_ARRAY_BUFFER, vbo);
+		//glBufferData( GL_ARRAY_BUFFER, model.getCompiledVertexSize() * model.getCompiledVertexCount() * sizeof(float), model.getCompiledVertices(), GL_STATIC_DRAW);
+
+		////load the index data for the compiled model
+		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBuffer[1]);
+		//glBufferData( GL_ELEMENT_ARRAY_BUFFER, model.getCompiledIndexCount() * sizeof(GLuint), model.getCompiledIndices(), GL_STATIC_DRAW);
+
+		//glBindBuffer( GL_ARRAY_BUFFER, 0);
+		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0);
+		//glBindBuffer( GL_TEXTURE_BUFFER_EXT, 0);
+
+		
 		int width  = glutGet(GLUT_WINDOW_WIDTH);
 		int height = glutGet(GLUT_WINDOW_HEIGHT);
 
 		gCamera = new ControlledCamera(width, height);
 		gCamera->Update();
+
+		GLContext::getCurrentContext().setCamera(gCamera);
 
 		gPersProjInfo = new PersProjInfo(60.0f, static_cast<float>(width), static_cast<float>(height), 1.0f, 10000.0f);
 		
@@ -226,6 +335,7 @@ private:
 
 	void displayImpl() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 
@@ -237,8 +347,6 @@ private:
 		}
 
 		std::sort(g_v_pClouds.begin(), g_v_pClouds.end(), &CompareViewDistance2);
-
-		//glDepthMask(GL_FALSE);
 
 		std::vector< CVolumetricCloud* >::iterator itCurCP, itEndCP = g_v_pClouds.end();
 		for( itCurCP = g_v_pClouds.begin(); itCurCP != itEndCP; ++ itCurCP )	

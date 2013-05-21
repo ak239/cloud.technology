@@ -23,14 +23,6 @@ bool CGameScene::Setup(const GLContext & context)
 		"posz.bmp",
 		"negz.bmp"
 		);
-	/*skybox->Init(".",
-		"green.bmp",
-		"red.bmp",
-		"yellow.bmp",
-		"blue.bmp",
-		"purple.bmp",
-		"orange.bmp"
-		);*/
 	return true;
 }
 

@@ -3,7 +3,11 @@
 #include <boost/unordered_map.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "Camera.h"
+
 class ContextCallbacks;
+
+struct GLContextData;
 
 /**
 *  Store GL context
@@ -21,6 +25,9 @@ public:
 	void initTweakBars();
 	bool getIsInitTweakBars() const{ return isTweakBarsInit; }
 
+	void setCamera(Camera* _camera);
+	Camera* getCamera();
+
 	static GLContext getCurrentContext();
 
 	static const int INVALID_CONTEXT;
@@ -36,11 +43,14 @@ private:
 	static void specialFunc(int key, int x, int y);
 	static void closeFunc();
 
-	int  windowId;
-	bool isTweakBarsInit;
+	int     windowId;
+	bool    isTweakBarsInit;
+
+	GLContextData* data;
 
 	typedef boost::shared_ptr<ContextCallbacks> CallbackHolder;
 	static boost::unordered_map<int, CallbackHolder> Callbacks;
+	static boost::unordered_map<int, GLContextData*> Datas;
 };
 
 /**
