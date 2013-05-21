@@ -192,7 +192,7 @@ private:
 		Cloud.fCellSize = g_CellSize;//1.5;
 		Cloud.fEvolvingSpeed = (float)(1.0-g_CloudEvolvingSpeed);
 
-		sprintf_s(Cloud.szTextureFile,MAX_PATH, "%s", "metaball.tga");
+		sprintf_s(Cloud.szTextureFile,MAX_PATH, "%s", "metaball.dds");
 
 		g_v_pClouds.clear();
 		for (int i = 0; i < gNumCloud; i++)
