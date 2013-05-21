@@ -16,13 +16,16 @@
 #include "Primitives.h"
 
 #include "GameScene.h"
+#include <ctime>
 
 #include <glm\ext.hpp>
+#include <thread>
+#include <memory>
 
 ControlledCamera* gCamera;
 PersProjInfo* gPersProjInfo;
 
-const unsigned int gNumCloud = 16;
+const unsigned int gNumCloud = 4;
 CVolumetricCloud g_VolumetricCloud[gNumCloud];
 
 std::vector< CVolumetricCloud* > g_v_pClouds;
@@ -47,12 +50,12 @@ struct SunColor
 
 SunColor    g_SunColor = {1.0f,1.0f,1.0f};
 float       g_fSunColorIntensity = 1.4f;
-float       g_fWindVelocity = 40.f;
+float       g_fWindVelocity = 10.f;
 
 
-#define CLOUD_POSY 350.f
-#define CLOUD_POSY1 450.f
-#define CLOUD_POSY2 300.f
+const float CLOUD_POSY = 350.f;
+const float CLOUD_POSY1 = 450.f;
+const float CLOUD_POSY2 = 300.f;
 
 float g_CellSize = 12.f;
 float g_CloudEvolvingSpeed = 0.8f;
@@ -83,6 +86,33 @@ static bool CompareViewDistance2( CVolumetricCloud* pCloud1, CVolumetricCloud* p
 {
 	return ( pCloud1->GetViewDistance() > pCloud2->GetViewDistance() );
 }
+
+int g_iColorUpdateInterval = 1;
+const float TIME_STEP = 0.5f;
+
+struct UpdateCloud {
+    void operator()( int fst, int lst ) const {
+		double fTime = (double)clock() / CLOCKS_PER_SEC;
+//#pragma omp parallel for
+        for(int i=fst; i < lst; i++ ) {
+                g_VolumetricCloud[i].AdvanceTime(fTime , g_iColorUpdateInterval);
+        }
+    }
+     UpdateCloud(double fTime = 0.0)
+     {}
+};
+
+bool allCalcThreadsStop;
+const int THREAD_COUNT = 2;
+UpdateCloud g_pUpdateCloud;
+
+static void RunUpdate(int fst, int lst)
+{
+	while (!allCalcThreadsStop){
+		g_pUpdateCloud(fst, lst);
+	}
+}
+
 
 class Clouds : public ContextCallbacks {
 public:
@@ -140,14 +170,20 @@ private:
 		m_gameScene = new CGameScene();
 		m_gameScene->Setup(getContext());
 
-		for (int fTime = 0; fTime < 2; fTime ++){
-			for(int i=0; i!= gNumCloud; i++ ) {
-				g_VolumetricCloud[i].AdvanceTime((float)fTime, 1);
-			}
-		}
+		//for (int fTime = 0; fTime < 2; fTime ++){
+		//	for(int i=0; i!= gNumCloud; i++ ) {
+		//		g_VolumetricCloud[i].AdvanceTime((float)fTime, 1);
+		//	}
+		//}
 		
 		ExitOnGLError("Init failed");
 
+		allCalcThreadsStop = false;
+		int per_thread = gNumCloud / THREAD_COUNT;
+		for (int i = 0; i < THREAD_COUNT; ++i){
+			int lst = (i + 1) * per_thread;
+			threads.push_back(std::shared_ptr<std::thread>(new std::thread(&RunUpdate, i * per_thread, lst > gNumCloud ? gNumCloud : lst)));			
+		}
 	}
 
 	void mouseImpl(int button, int state, int x, int y) {
@@ -213,12 +249,13 @@ private:
 
 		std::sort(g_v_pClouds.begin(), g_v_pClouds.end(), &CompareViewDistance2);
 
+		glDepthMask(GL_FALSE);
+
 		std::vector< CVolumetricCloud* >::iterator itCurCP, itEndCP = g_v_pClouds.end();
 		for( itCurCP = g_v_pClouds.begin(); itCurCP != itEndCP; ++ itCurCP )	
 		{
 			(*itCurCP)->Render();
 		}
-
 	}
 
 	void keyboardImpl(unsigned char key, int x, int y) {
@@ -226,6 +263,12 @@ private:
 		{
 			case 27: 
 				glutDestroyWindow ( getContext().getWindowId() );
+
+				allCalcThreadsStop = true;
+
+				for (std::size_t i = 0; i < threads.size(); ++i)
+					threads[i]->join();
+
 				exit (0);
 				break;
 		}
@@ -250,4 +293,5 @@ private:
 
 private:
 	CGameScene* m_gameScene;
+	std::vector<std::shared_ptr<std::thread> > threads;
 };
