@@ -11,13 +11,13 @@ CGameScene::~CGameScene()
 bool CGameScene::Setup(const GLContext & context)
 {
 	skybox = new SkyBox(context, context.getCamera(), *context.getPersProjInfo());	
-	skybox->Init(".",
-		"posx.bmp",
-		"negx.bmp",
-		"posy.bmp",
-		"negy.bmp",
-		"posz.bmp",
-		"negz.bmp"
+	skybox->Init(".\\media\\",
+		"posx.dds",
+		"negx.dds",
+		"posy.dds",
+		"negy.dds",
+		"posz.dds",
+		"negz.dds"
 		);
 	return true;
 }

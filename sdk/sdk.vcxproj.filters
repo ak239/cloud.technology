@@ -75,39 +75,15 @@
     <ClCompile Include="nvImageDDS.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="nvModel.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="nvModelObj.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="nvModelQuery.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlutWindow.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleActions.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="GLApp.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="PointTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="gl.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="TriangleTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ShadersTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="UniformTutorial.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="GLContext.h">
@@ -128,27 +104,6 @@
     <ClInclude Include="FSShaderProgramLoader.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="TweakBarVarHelper.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="RotateTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ScaleTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="InterpolationTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexesTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -158,9 +113,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="TextureTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="TransformMatrix.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -168,12 +120,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="GLContextObj.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="LightingTutorial.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="YetAnotherExample.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="clouds\clouds.h">
@@ -215,8 +161,8 @@
     <ClInclude Include="nvImage.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="nvModel.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="negx.dds" />
   </ItemGroup>
 </Project>

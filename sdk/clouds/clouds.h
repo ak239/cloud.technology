@@ -121,6 +121,9 @@ private:
 		projInfo = new PersProjInfo(60.0f, static_cast<float>(width), static_cast<float>(height), 1.0f, 10000.0f);
 		current.setPersProjInfo(projInfo);
 
+		generateClouds();
+		generateScene();
+
 		//tweakbar
 		m_TwBar = TwNewBar("Menu");
 		TwDefine("Menu color='0 0 0' alpha=128 position='10 10' size='200 250'");
@@ -133,9 +136,6 @@ private:
 		TwAddVarRW( m_TwBar, "windVelocity",       TW_TYPE_FLOAT,   &windVelocity,		 "label='Wind velocity'");
 		TwAddVarRW( m_TwBar, "cloudEvolvingSpeed", TW_TYPE_FLOAT,   &cloudEvolvingSpeed, "label='Cloud Evolving Speed' step=0.1");
 		TwAddButton(m_TwBar, "Apply", &Clouds::ApplyCallback, this, "");
-
-		generateClouds();
-		generateScene();
 		
 		ExitOnGLError("Init failed");
 	}
@@ -171,7 +171,7 @@ private:
 		Cloud.fCellSize      = cellSize;
 		Cloud.fEvolvingSpeed = 1.0f - cloudEvolvingSpeed;
 
-		sprintf_s(Cloud.szTextureFile,MAX_PATH, "%s", "metaball.dds");
+		sprintf_s(Cloud.szTextureFile, MAX_PATH, "%s", ".\\media\\metaball.dds");
 
 		pClouds.clear();
 		clouds.swap(std::vector<CVolumetricCloud>(newNumCloud));

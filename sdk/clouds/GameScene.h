@@ -27,7 +27,6 @@ public:
 	float				m_fEvolvingSpeed;
 	int                 m_iSun[2];
 
-
 public:
 	CGameScene();
 	~CGameScene();

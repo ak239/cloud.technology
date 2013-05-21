@@ -248,7 +248,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
                 bytesPerElement = 8;
                 btcCompressed = true;
-				fprintf(stderr, "Information: good format DXT1\r\n");
+				//fprintf(stderr, "Information: good format DXT1\r\n");
                 break;
 
             case FOURCC_DXT2:
@@ -258,7 +258,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
                 bytesPerElement = 16;
                 btcCompressed = true;
-				fprintf(stderr, "Information: good format DXT2, DXT3\r\n");
+				//fprintf(stderr, "Information: good format DXT2, DXT3\r\n");
                 break;
 
             case FOURCC_DXT4:
@@ -268,7 +268,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
                 bytesPerElement = 16;
                 btcCompressed = true;
-				fprintf(stderr, "Information: good format DXT4, DXT5\r\n");
+				//fprintf(stderr, "Information: good format DXT4, DXT5\r\n");
                 break;
 
 			case FOURCC_ATI1:
@@ -277,7 +277,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_COMPRESSED_LUMINANCE_LATC1_EXT;
                 bytesPerElement = 8;
                 btcCompressed = true;
-				fprintf(stderr, "Information: good format ATI1\r\n");
+				//fprintf(stderr, "Information: good format ATI1\r\n");
                 break;
 
 			case FOURCC_ATI2:
@@ -286,7 +286,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_COMPRESSED_LUMINANCE_ALPHA_LATC2_EXT;
                 bytesPerElement = 16;
                 btcCompressed = true;
-				fprintf(stderr, "Information: good format ATI2\r\n");
+				//fprintf(stderr, "Information: good format ATI2\r\n");
                 break;
 
             case FOURCC_R8G8B8:
@@ -294,7 +294,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._internalFormat = GL_RGB8;
                 i._type = GL_UNSIGNED_BYTE;
                 bytesPerElement = 3;
-				fprintf(stderr, "Information: good format R8G8B8\r\n");
+				//fprintf(stderr, "Information: good format R8G8B8\r\n");
 				break;
 
             case FOURCC_A8R8G8B8:
@@ -303,7 +303,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_BYTE;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_A8R8G8B8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A8R8G8B8\r\n");
                 break;
 
             case FOURCC_X8R8G8B8:
@@ -312,7 +312,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_INT_8_8_8_8;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_X8R8G8B8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_X8R8G8B8\r\n");
                 break;
 
             case FOURCC_R5G6B5:
@@ -321,7 +321,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_SHORT_5_6_5;
                 bytesPerElement = 2;
 
-				fprintf(stderr, "Information: good format FOURCC_R5G6B5\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_R5G6B5\r\n");
                 break;
 
             case FOURCC_A8:
@@ -330,7 +330,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_BYTE;
                 bytesPerElement = 1;
 
-				fprintf(stderr, "Information: good format FOURCC_A8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A8\r\n");
                 break;
 
             case FOURCC_A2B10G10R10:
@@ -339,7 +339,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_INT_10_10_10_2;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_A2B10G10R10\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A2B10G10R10\r\n");
                 break;
 
             case FOURCC_A8B8G8R8:
@@ -348,7 +348,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_BYTE;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_A8B8G8R8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A8B8G8R8\r\n");
                 break;
 
             case FOURCC_X8B8G8R8:
@@ -357,7 +357,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_INT_8_8_8_8;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_X8B8G8R8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_X8B8G8R8\r\n");
                 break;
 
             case FOURCC_A2R10G10B10:
@@ -366,7 +366,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_INT_10_10_10_2;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_A2R10G10B10\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A2R10G10B10\r\n");
                 break;
 
             case FOURCC_A16B16G16R16:
@@ -375,7 +375,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_SHORT;
                 bytesPerElement = 8;
 
-				fprintf(stderr, "Information: good format FOURCC_A16B16G16R16\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A16B16G16R16\r\n");
                 break;
 
             case FOURCC_L8:
@@ -384,7 +384,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_BYTE;
                 bytesPerElement = 1;
 
-				fprintf(stderr, "Information: good format FOURCC_L8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_L8\r\n");
                 break;
 
             case FOURCC_A8L8:
@@ -393,7 +393,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_BYTE;
                 bytesPerElement = 2;
 
-				fprintf(stderr, "Information: good format FOURCC_A8L8\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A8L8\r\n");
                 break;
 
             case FOURCC_L16:
@@ -402,7 +402,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_UNSIGNED_SHORT;
                 bytesPerElement = 2;
 
-				fprintf(stderr, "Information: good format FOURCC_L16\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_L16\r\n");
                 break;
 
             case FOURCC_R16F:
@@ -411,7 +411,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_HALF_FLOAT_ARB;
                 bytesPerElement = 2;
 
-				fprintf(stderr, "Information: good format FOURCC_R16F\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_R16F\r\n");
                 break;
 
             case FOURCC_A16B16G16R16F:
@@ -420,7 +420,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_HALF_FLOAT_ARB;
                 bytesPerElement = 8;
 
-				fprintf(stderr, "Information: good format FOURCC_A16B16G16R16F\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A16B16G16R16F\r\n");
                 break;
 
             case FOURCC_R32F:
@@ -429,7 +429,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_FLOAT;
                 bytesPerElement = 4;
 
-				fprintf(stderr, "Information: good format FOURCC_R32F\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_R32F\r\n");
                 break;
 
             case FOURCC_A32B32G32R32F:
@@ -438,7 +438,7 @@ int Image::readDDS( const char *file, Image& i) {
                 i._type = GL_FLOAT;
                 bytesPerElement = 16;
 
-				fprintf(stderr, "Information: good format FOURCC_A32B32G32R32F\r\n");
+				//fprintf(stderr, "Information: good format FOURCC_A32B32G32R32F\r\n");
                 break;
 
             case FOURCC_UNKNOWN:
@@ -470,7 +470,7 @@ int Image::readDDS( const char *file, Image& i) {
         i._type = GL_UNSIGNED_BYTE;
         bytesPerElement = 4;
 
-		fprintf(stderr, "Information: good format GL_RGBA8\r\n");
+		//fprintf(stderr, "Information: good format GL_RGBA8\r\n");
     }
     else if (ddsh.ddspf.dwFlags == DDSF_RGB  && ddsh.ddspf.dwRGBBitCount == 32)
     {
@@ -479,7 +479,7 @@ int Image::readDDS( const char *file, Image& i) {
         i._type = GL_UNSIGNED_BYTE;
         bytesPerElement = 4;
 
-		fprintf(stderr, "Information: good format GL_RGBA8 (4 per element)\r\n");
+		//fprintf(stderr, "Information: good format GL_RGBA8 (4 per element)\r\n");
     }
     else if (ddsh.ddspf.dwFlags == DDSF_RGB  && ddsh.ddspf.dwRGBBitCount == 24)
     {
@@ -488,7 +488,7 @@ int Image::readDDS( const char *file, Image& i) {
         i._type = GL_UNSIGNED_BYTE;
         bytesPerElement = 3;
 
-		fprintf(stderr, "Information: good format GL_RGB8 (3 per element)\r\n");
+		//fprintf(stderr, "Information: good format GL_RGB8 (3 per element)\r\n");
     }
 	else if (ddsh.ddspf.dwRGBBitCount == 8)
 	{
@@ -497,7 +497,7 @@ int Image::readDDS( const char *file, Image& i) {
         i._type = GL_UNSIGNED_BYTE;
 		bytesPerElement = 1;
 
-		fprintf(stderr, "Information: good format GL_LUMINANCE\r\n");
+		//fprintf(stderr, "Information: good format GL_LUMINANCE\r\n");
 	}
     else 
     {
@@ -529,16 +529,6 @@ int Image::readDDS( const char *file, Image& i) {
             d = ( d > 1) ? d >> 1 : 1;
         }
     }
-/*
-    //reverse cube map y faces
-    if (i._faces == 6) {
-        for (int level = 0; level < i._levelCount; level++) {
-            GLubyte *temp = i._data[2*i._levelCount + level];
-            i._data[2*i._levelCount + level] = i._data[3*i._levelCount + level];
-            i._data[3*i._levelCount + level] = temp;
-        }
-    }
-  */  
 
 	fprintf(stderr, "Info: texture loaded (%d)\r\n", i.getFormat());
     return 0;

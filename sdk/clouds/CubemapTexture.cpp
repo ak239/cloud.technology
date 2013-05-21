@@ -2,13 +2,14 @@
 #include <iostream>
 #include "CubemapTexture.h"
 #include <SOIL.h>
+#include "../nvImage.h"
 
 #define ARRAY_SIZE_IN_ELEMENTS(a) (sizeof(a)/sizeof(a[0]))
 
 static const GLenum types[6] = {  GL_TEXTURE_CUBE_MAP_POSITIVE_X,
 	GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-	GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
 	GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+	GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
 	GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
 	GL_TEXTURE_CUBE_MAP_NEGATIVE_Z };
 
@@ -48,19 +49,12 @@ bool CubemapTexture::Load()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
 
 	for (unsigned int i = 0 ; i < ARRAY_SIZE_IN_ELEMENTS(types) ; i++) {
-		int width = 0;
-		int height = 0;
-		unsigned char * image = SOIL_load_image(m_fileNames[i].c_str(), &width, &height, 0, SOIL_LOAD_RGB);
 
-		if (image == 0 ) {
-			printf( "SOIL loading error: '%s'\n", SOIL_last_result() );
-			SOIL_free_image_data(image);
-			return false;
-		}
+		nv::Image fImage;
+		fImage.loadImageFromFile(m_fileNames[i].c_str());
 
-		glTexImage2D(types[i], 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
-		SOIL_free_image_data(image);
+		unsigned char* data = (unsigned char*)fImage.getLevel(0);
+		glTexImage2D(types[i], 0, fImage.getInternalFormat(), fImage.getWidth(), fImage.getHeight(), 0, fImage.getFormat(), fImage.getType(), data);
 	}    
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

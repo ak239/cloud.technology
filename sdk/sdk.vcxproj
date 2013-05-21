@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\Simple OpenGL Image Library\include;..\..\glm-0.9.4.3;..\..\boost;..\..\AntTweakBar\include;..\..\freeglut-2.8.0\include;..\..\glew-1.9.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\Simple OpenGL Image Library\lib;..\..\boost\stage\lib;..\..\glew-1.9.0\lib;..\..\glew-1.9.0\bin;..\..\AntTweakBar\lib\debug;..\..\freeglut-2.8.0\lib\x86\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\glm-0.9.4.3;..\..\boost;..\..\AntTweakBar\include;..\..\freeglut-2.8.0\include;..\..\glew-1.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\boost\stage\lib;..\..\glew-1.9.0\lib;..\..\glew-1.9.0\bin;..\..\AntTweakBar\lib\debug;..\..\freeglut-2.8.0\lib\x86\Debug;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -64,7 +64,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SOILd.lib;freeglut.lib;AntTweakBar.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freeglut.lib;AntTweakBar.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -102,9 +102,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nvImage.cpp" />
     <ClCompile Include="nvImageDDS.cpp" />
-    <ClCompile Include="nvModel.cpp" />
-    <ClCompile Include="nvModelObj.cpp" />
-    <ClCompile Include="nvModelQuery.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderProgramLoader.cpp" />
@@ -122,7 +119,6 @@
     <ClInclude Include="clouds\Simulation.h" />
     <ClInclude Include="clouds\utils.h" />
     <ClInclude Include="nvImage.h" />
-    <ClInclude Include="nvModel.h" />
     <ClInclude Include="PersProjInfo.h" />
     <ClInclude Include="clouds\Primitives.h" />
     <ClInclude Include="clouds\Skybox.h" />
@@ -134,27 +130,15 @@
     <ClInclude Include="GLContextObj.h" />
     <ClInclude Include="GlutWindow.h" />
     <ClInclude Include="ContextCallbacks.h" />
-    <ClInclude Include="IndexesTutorial.h" />
-    <ClInclude Include="InterpolationTutorial.h" />
-    <ClInclude Include="LightingTutorial.h" />
-    <ClInclude Include="MoveTutorial.h" />
-    <ClInclude Include="PointTutorial.h" />
-    <ClInclude Include="RotateTutorial.h" />
-    <ClInclude Include="ScaleTutorial.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderProgramLoader.h" />
-    <ClInclude Include="ShadersTutorial.h" />
-    <ClInclude Include="SimpleActions.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureTutorial.h" />
     <ClInclude Include="TransformMatrix.h" />
-    <ClInclude Include="TransformTutorial.h" />
-    <ClInclude Include="TriangleTutorial.h" />
-    <ClInclude Include="TweakBarVarHelper.h" />
-    <ClInclude Include="UniformTutorial.h" />
     <ClInclude Include="UniformWrapper.h" />
-    <ClInclude Include="YetAnotherExample.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="negx.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
