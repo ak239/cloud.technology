@@ -141,6 +141,8 @@ private:
 		TwDefine("Menu fontresizable=false resizable=false");
 
 		TwAddVarRW(m_TwBar, "sunColorIntensity", TW_TYPE_FLOAT, &g_fSunColorIntensity, "label='Sun color intensity'");
+
+
 		TwAddVarRW(m_TwBar, "sunColor", TW_TYPE_COLOR3F, &g_SunColor, "label='Sun light color'");
 		TwAddVarRW(m_TwBar, "cellSize", TW_TYPE_FLOAT, &g_CellSize, "label='Cell size' step=1 min=4 max=20");
 
