@@ -260,7 +260,7 @@ private:
 
 		std::sort(g_v_pClouds.begin(), g_v_pClouds.end(), &CompareViewDistance2);
 
-		glDepthMask(GL_FALSE);
+		//glDepthMask(GL_FALSE);
 
 		std::vector< CVolumetricCloud* >::iterator itCurCP, itEndCP = g_v_pClouds.end();
 		for( itCurCP = g_v_pClouds.begin(); itCurCP != itEndCP; ++ itCurCP )	
