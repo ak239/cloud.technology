@@ -24,10 +24,13 @@ public:
 		width  = _width;
 		height = _height;
 
-		m_mousePos.x  = width / 2;
-		m_mousePos.y  = height / 2;
+	//	if (!m_IsPassiveMotion)
+		{
+			m_mousePos.x  = width / 2;
+			m_mousePos.y  = height / 2;
 
-		glutWarpPointer(m_mousePos.x, m_mousePos.y);
+			glutWarpPointer(m_mousePos.x, m_mousePos.y);
+		}
 	}
 	
 	void keyboardFunc(unsigned char key, int x, int y){
@@ -64,8 +67,12 @@ public:
 			{
 				if (!m_IsPassiveMotion)
 				{
-					glutWarpPointer(m_mousePos.x, m_mousePos.y);
+					m_mousePos = glm::ivec2(x, y);
 					m_IsDragging = true;
+				}
+				else {
+					m_mousePos = glm::ivec2(width /2, height/ 2);
+					glutWarpPointer(m_mousePos.x, m_mousePos.y);
 				}
 				
 			}
@@ -80,31 +87,39 @@ public:
 	void mouseMotionFunc(int x, int y){
 		if (!m_IsPassiveMotion && m_IsDragging)
 		{
+			if (( x == m_mousePos.x)&&(y == m_mousePos.y)) return;
 			move(x, y);
+			m_mousePos = glm::ivec2(x, y);
 		}
 	}
 
 	void mousePassiveMotionFunc(int x, int y){
 		if (m_IsPassiveMotion)
 		{
+			if (( x == m_mousePos.x)&&(y == m_mousePos.y)) return;
 			move(x, y);
+			glutWarpPointer(m_mousePos.x, m_mousePos.y);
 		}
 	}
 
 	void move(int x, int y) {
-		if (( x == m_mousePos.x)&&(y == m_mousePos.y)) return;
-
+		
 		int DeltaX = x - m_mousePos.x;
 		int DeltaY = y - m_mousePos.y;
 
 		setHorizontalAngle(getHorizontalAngle() - (float)DeltaX / 60.0f);
 		setVerticalAngle(getVerticalAngle() - (float)DeltaY / 60.0f);
-
-		glutWarpPointer(m_mousePos.x, m_mousePos.y);
 	}
 
 	void setMode(bool isPassiveMotion) {
 		m_IsPassiveMotion = isPassiveMotion;
+		if (m_IsPassiveMotion)
+		{
+			m_mousePos.x  = width / 2;
+			m_mousePos.y  = height / 2;
+
+			glutWarpPointer(m_mousePos.x, m_mousePos.y);
+		}
 		m_IsDragging = false;
 	}
 	

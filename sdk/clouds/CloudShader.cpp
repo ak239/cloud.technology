@@ -147,7 +147,6 @@ void CCloudShader::Render()
 	gUpNormal.setValue(glm::normalize(vecUp));
 
 	int uNumInBlock = 0;
-	int visibleParticles = 0;
 	CParticleEnumerator Enumerator( & m_pVolumetricCloud->m_ParticlePool );
 	CloudParticle *pCurParticle = Enumerator.NextParticleFromLastBuffer();
 	while( pCurParticle )
@@ -179,7 +178,6 @@ void CCloudShader::Render()
 			pVBData[4*uNumInBlock+3].v = 1.0f;
 
 			uNumInBlock ++;
-			visibleParticles ++;
 			if (uNumInBlock >= m_iNumParticlesPerBuffer)
 			{
 				glBindVertexArray(VAO);
@@ -206,8 +204,6 @@ void CCloudShader::Render()
 		// Go to next particle
 		pCurParticle = Enumerator.NextParticleFromLastBuffer();
 	}
-
-	//printf("Visible particles : %d\n", visibleParticles);
 
 	if (uNumInBlock != 0)
 	{

@@ -53,6 +53,7 @@ int main(int args, char* argv[])
 	}
 
 	GLContext context = wnd.getContext();
+	context.initTweakBars();
 	context.registerCallbacks(new Clouds());
 
 	return app.exec();
