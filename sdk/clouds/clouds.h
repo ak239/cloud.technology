@@ -108,6 +108,7 @@ private:
 		gCamera->setHorizontalAngle(-1.5917f);
 		gCamera->setVerticalAngle(0.7166f);
 		gCamera->setSpeed(100);
+		gCamera->setMode(false);
 		gCamera->Update();
 
 		gPersProjInfo = new PersProjInfo();
@@ -115,9 +116,9 @@ private:
 		gPersProjInfo->Height = (float)height;
 		gPersProjInfo->Width = (float)width;
 		gPersProjInfo->zNear = 1.0f;
-		gPersProjInfo->zFar = 1000.0f; 
+		gPersProjInfo->zFar = 10000.0f; 
 
-		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
 
 		fprintf(
 			stdout,
@@ -150,15 +151,16 @@ private:
 	}
 
 	void mouseImpl(int button, int state, int x, int y) {
-		
+		gCamera->mouseClickFunc(button, state, x, y);
 	}
 
-	void passiveMotionImpl(int x, int y) {		
+	void motionImpl(int x, int y) {		
 		gCamera->mouseMotionFunc(x,y);
 	}
 
-	
-
+	void passiveMotionImpl(int x, int y) {		
+		gCamera->mousePassiveMotionFunc(x,y);
+	}
 
 	void InitCloud(bool bNeedClean)
 	{

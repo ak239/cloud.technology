@@ -16,6 +16,8 @@ public:
 
 		glutWarpPointer(m_mousePos.x, m_mousePos.y);
 		m_Speed = 0.1f;
+		m_IsDragging = false;
+		m_IsPassiveMotion = false;
 	}
 
 	void reshapeFunc(int _width, int _height){
@@ -55,7 +57,41 @@ public:
 		m_Speed = speed;
 	}
 
+	void mouseClickFunc(int button, int state, int x, int y) {
+		if (button == GLUT_LEFT_BUTTON)
+		{
+			if (state == GLUT_DOWN)
+			{
+				if (!m_IsPassiveMotion)
+				{
+					glutWarpPointer(m_mousePos.x, m_mousePos.y);
+					m_IsDragging = true;
+				}
+				
+			}
+			else if (state == GLUT_UP)
+			{
+				m_IsDragging = false;
+			}
+
+		}
+	}
+
 	void mouseMotionFunc(int x, int y){
+		if (!m_IsPassiveMotion && m_IsDragging)
+		{
+			move(x, y);
+		}
+	}
+
+	void mousePassiveMotionFunc(int x, int y){
+		if (m_IsPassiveMotion)
+		{
+			move(x, y);
+		}
+	}
+
+	void move(int x, int y) {
 		if (( x == m_mousePos.x)&&(y == m_mousePos.y)) return;
 
 		int DeltaX = x - m_mousePos.x;
@@ -66,6 +102,11 @@ public:
 
 		glutWarpPointer(m_mousePos.x, m_mousePos.y);
 	}
+
+	void setMode(bool isPassiveMotion) {
+		m_IsPassiveMotion = isPassiveMotion;
+		m_IsDragging = false;
+	}
 	
 	void idleFunc(){
 	}
@@ -75,6 +116,8 @@ private:
 	GLint height;
 
 	float m_Speed;
+	bool m_IsDragging;
+	bool m_IsPassiveMotion;
 
 	glm::ivec2 m_mousePos;
 };

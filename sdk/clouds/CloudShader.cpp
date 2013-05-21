@@ -126,7 +126,7 @@ void CCloudShader::Render()
 {
 	glEnable( GL_BLEND );
 	glDepthMask(GL_FALSE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	loader->getProgram().use();
 	texture->bind(GL_TEXTURE0);
@@ -136,12 +136,12 @@ void CCloudShader::Render()
 	glm::mat4 mCamera = gCamera->cameraMat();
 	tm.setCamera(mCamera);
 	tm.setProjection(glm::perspective(gPersProjInfo->FOV, gPersProjInfo->Width/gPersProjInfo->Height, gPersProjInfo->zNear, gPersProjInfo->zFar));
-	
+
 	glm::mat4 mTransform = tm.getTransform();
 	gWVP.setValue(mTransform);
 
-	glm::vec4 vecRight = glm::vec4(mTransform[0][0], mTransform[1][0], mTransform[2][0], 0.0f);
-	glm::vec4 vecUp = glm::vec4(mTransform[0][1], mTransform[1][1], mTransform[2][1], 0.0f);
+	glm::vec4 vecRight = glm::vec4(mCamera[0][0], mCamera[1][0], mCamera[2][0], 0.0f);
+	glm::vec4 vecUp = glm::vec4(mCamera[0][1], mCamera[1][1], mCamera[2][1], 0.0f);
 
 	gRightNormal.setValue(glm::normalize(vecRight));
 	gUpNormal.setValue(glm::normalize(vecUp));
@@ -197,7 +197,7 @@ void CCloudShader::Render()
 
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
-				glDrawElements(GL_TRIANGLES, 2*m_iNumParticlesPerBuffer, GL_UNSIGNED_SHORT, (GLvoid*)0);
+				glDrawElements(GL_TRIANGLES, 6*m_iNumParticlesPerBuffer, GL_UNSIGNED_SHORT, (GLvoid*)0);
 
 				uNumInBlock = 0;
 				ExitOnGLError("CloudShader rendering failed");
@@ -227,7 +227,7 @@ void CCloudShader::Render()
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
-		glDrawElements(GL_TRIANGLES, 2*uNumInBlock, GL_UNSIGNED_SHORT, (GLvoid*)0);
+		glDrawElements(GL_TRIANGLES, 6*uNumInBlock, GL_UNSIGNED_SHORT, (GLvoid*)0);
 	}
 
 	
