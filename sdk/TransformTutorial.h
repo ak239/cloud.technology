@@ -72,7 +72,7 @@ private:
 	void idleImpl()
 	{
 		step += 0.003f;
-		c.idleFunc();
+//		c.idleFunc();
 	}
 
 	void keyboardImpl(unsigned char key, int x, int y)

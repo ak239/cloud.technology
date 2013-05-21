@@ -33,7 +33,7 @@
 using namespace std;
 
 extern ControlledCamera*  gCamera;
-extern PersProjInfo* gPersProjInfo;
+extern PersProjInfo*      gPersProjInfo;
 
 CCloudShader::CCloudShader()
 {

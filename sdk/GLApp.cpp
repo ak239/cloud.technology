@@ -23,6 +23,12 @@ bool GLApp::glewInitialize()
 
 int GLApp::exec()
 {
+	fprintf(
+		stdout,
+		"INFO: OpenGL Version: %s\n",
+		glGetString(GL_VERSION)
+	);
+
 	glutMainLoop();
 	return 0;
 }

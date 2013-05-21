@@ -59,7 +59,7 @@ private:
 	void idleImpl()
 	{
 		var += 0.1f;
-		camera->idleFunc();
+//		camera->idleFunc();
 	}
 
 	void keyboardImpl(unsigned char key, int x, int y)

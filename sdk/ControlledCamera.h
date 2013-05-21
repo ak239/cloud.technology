@@ -8,7 +8,7 @@
 class ControlledCamera : public Camera
 {
 public:
-	ControlledCamera(GLint _width, GLint _height) : 
+	ControlledCamera(GLint _width, GLint _height, float speed = 100.0f, bool mode = false) : 
 		width(_width), height(_height){
 		
 		m_mousePos.x  = width / 2;
@@ -18,6 +18,13 @@ public:
 		m_Speed = 0.1f;
 		m_IsDragging = false;
 		m_IsPassiveMotion = false;
+
+		setPos(glm::vec3(0.0f, 0.0f, 0.0f));
+		setUp(glm::vec3(0.0f, -1.0f, 0.0f));
+		setHorizontalAngle(-1.5917f);
+		setVerticalAngle(0.7166f);
+		setSpeed(speed);
+		setMode(mode);
 	}
 
 	void reshapeFunc(int _width, int _height){
@@ -121,9 +128,6 @@ public:
 			glutWarpPointer(m_mousePos.x, m_mousePos.y);
 		}
 		m_IsDragging = false;
-	}
-	
-	void idleFunc(){
 	}
 
 private:

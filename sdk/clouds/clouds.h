@@ -23,10 +23,11 @@
 #include <memory>
 
 ControlledCamera* gCamera;
-PersProjInfo* gPersProjInfo;
 
-const unsigned int gNumCloud = 4;
-CVolumetricCloud g_VolumetricCloud[gNumCloud];
+int gNumCloud = 4;
+int g_NewCloudNum = 4;
+std::vector<CVolumetricCloud> g_VolumetricCloud;
+PersProjInfo*      gPersProjInfo;
 
 std::vector< CVolumetricCloud* > g_v_pClouds;
 
@@ -68,12 +69,9 @@ CloudPosSize g_Cloud[]={
 	{-900.0f, CLOUD_POSY2, -400.0f, 600.f,700.f,110.f},
 	{-750.0f, CLOUD_POSY, -350.0f, 600.f,200.f,130.f},
 	{-300.0f, CLOUD_POSY1, -100.0f, 300.f,200.f,80.f},
-	{-250.0f, CLOUD_POSY, -300.0f, 900.f,200.f,70.f},
-	
+	{-250.0f, CLOUD_POSY, -300.0f, 900.f,200.f,70.f},	
 	{-100.0f, CLOUD_POSY2, -250.0f, 400.f,200.f,140.f},
-
 	{-900.0f, CLOUD_POSY1, -800.0f, 600.f,400.f,80.f},
-
 	{-800.0f, CLOUD_POSY2, -700.0f, 400.f,200.f,90.f},
 	{-700.0f, CLOUD_POSY, -680.0f, 600.f,150.f,80.f},
 	{-750.0f, CLOUD_POSY1, -800.0f, 400.f,200.f,120.f},
@@ -116,7 +114,7 @@ static void RunUpdate(int fst, int lst)
 
 class Clouds : public ContextCallbacks {
 public:
-	Clouds() {
+	Clouds():m_gameScene(0) {
 
 	}
 
@@ -128,73 +126,38 @@ public:
 
 private:
 
+	static void TW_CALL ApplyCallback(void *clientData)
+	{ 
+		static_cast<Clouds*>(clientData)->generateClouds();
+		static_cast<Clouds*>(clientData)->generateScene();
+	}
+
 	void initImpl(){
+		setupGL();
+	
 		int width  = glutGet(GLUT_WINDOW_WIDTH);
 		int height = glutGet(GLUT_WINDOW_HEIGHT);
-		GLfloat aspect = static_cast<GLfloat>(width) / height;
+
 		gCamera = new ControlledCamera(width, height);
-		gCamera->setPos(glm::vec3(0.0f, 0.0f, 0.0f));
-		gCamera->setUp(glm::vec3(0.0f, -1.0f, 0.0f));
-		gCamera->setHorizontalAngle(-1.5917f);
-		gCamera->setVerticalAngle(0.7166f);
-		gCamera->setSpeed(100);
-		gCamera->setMode(false);
 		gCamera->Update();
 
-		gPersProjInfo = new PersProjInfo();
-		gPersProjInfo->FOV = 60.0f;
-		gPersProjInfo->Height = (float)height;
-		gPersProjInfo->Width = (float)width;
-		gPersProjInfo->zNear = 1.0f;
-		gPersProjInfo->zFar = 10000.0f; 
-
-		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
-
-		fprintf(
-			stdout,
-			"INFO: OpenGL Version: %s\n",
-			glGetString(GL_VERSION)
-			);
-
-		// setup gl
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glFrontFace(GL_CW);
-		glCullFace(GL_BACK);
-		glEnable(GL_CULL_FACE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_POINT_SPRITE);
+		gPersProjInfo = new PersProjInfo(60.0f, static_cast<float>(width), static_cast<float>(height), 1.0f, 10000.0f);
 		
 		//tweakbar
 		m_TwBar = TwNewBar("Menu");
 		TwDefine("Menu color='0 0 0' alpha=128 position='10 10' size='200 150'");
 		TwDefine("Menu fontresizable=false resizable=false");
 
-		TwAddVarRW(m_TwBar, "sunColorIntensity", TW_TYPE_FLOAT, &g_fSunColorIntensity, "label='Sun color intensity'");
+		TwAddVarRW( m_TwBar, "sunColorIntensity", TW_TYPE_FLOAT,   &g_fSunColorIntensity, "label='Sun color intensity'");
+		TwAddVarRW( m_TwBar, "sunColor",          TW_TYPE_COLOR3F, &g_SunColor,    "label='Sun light color'");
+		TwAddVarRW( m_TwBar, "cellSize",          TW_TYPE_FLOAT,   &g_CellSize,    "label='Cell size'   step=1 min=4 max=20");
+		TwAddVarRW( m_TwBar, "cloudCount",        TW_TYPE_INT16,   &g_NewCloudNum, "label='Cloud count' step=1 min=4 max=16");
+		TwAddButton(m_TwBar, "Apply", &Clouds::ApplyCallback, this, "");
 
-
-		TwAddVarRW(m_TwBar, "sunColor", TW_TYPE_COLOR3F, &g_SunColor, "label='Sun light color'");
-		TwAddVarRW(m_TwBar, "cellSize", TW_TYPE_FLOAT, &g_CellSize, "label='Cell size' step=1 min=4 max=20");
-
-		InitCloud(false);
-
-		m_gameScene = new CGameScene();
-		m_gameScene->Setup(getContext());
-
-		//for (int fTime = 0; fTime < 2; fTime ++){
-		//	for(int i=0; i!= gNumCloud; i++ ) {
-		//		g_VolumetricCloud[i].AdvanceTime((float)fTime, 1);
-		//	}
-		//}
+		generateClouds();
+		generateScene();
 		
 		ExitOnGLError("Init failed");
-
-		allCalcThreadsStop = false;
-		int per_thread = gNumCloud / THREAD_COUNT;
-		for (int i = 0; i < THREAD_COUNT; ++i){
-			int lst = (i + 1) * per_thread;
-			threads.push_back(std::shared_ptr<std::thread>(new std::thread(&RunUpdate, i * per_thread, lst > gNumCloud ? gNumCloud : lst)));			
-		}
 	}
 
 	void mouseImpl(int button, int state, int x, int y) {
@@ -209,30 +172,30 @@ private:
 		gCamera->mousePassiveMotionFunc(x,y);
 	}
 
-	void InitCloud(bool bNeedClean)
+	void generateClouds()
 	{
-		/*if (bNeedClean)
-		{
-		if (g_JobResult != NULL)
-		{
-		g_JobResult->waitUntilDone();
+		allCalcThreadsStop = true;
+		for (std::size_t i = 0; i < threads.size(); ++i){
+			threads[i]->join();
 		}
-		for (int i = 0; i < gNumCloud; i++)
-		g_VolumetricCloud[i].Cleanup();
-		}*/
+
+		threads.swap(std::vector<std::shared_ptr<std::thread> >());
+
 		Environment Env;
-		Env.cSunColor = glm::vec4( g_SunColor.r, g_SunColor.g, g_SunColor.b, 1.0f );
+		Env.cSunColor          = glm::vec4( g_SunColor.r, g_SunColor.g, g_SunColor.b, 1.0f );
 		Env.fSunColorIntensity = g_fSunColorIntensity;
-		Env.vWindVelocity = glm::vec3( -0.f, 0.f, -g_fWindVelocity );
-		Env.vSunlightDir = glm::vec3( 1.0f, -1.0f, 0.0f );
+		Env.vWindVelocity      = glm::vec3( -0.f, 0.f, -g_fWindVelocity );
+		Env.vSunlightDir       = glm::vec3( 1.0f, -1.0f, 0.0f );
 
 		CloudProperties Cloud;
-		Cloud.fCellSize = g_CellSize;//1.5;
+		Cloud.fCellSize      = g_CellSize;//1.5;
 		Cloud.fEvolvingSpeed = (float)(1.0-g_CloudEvolvingSpeed);
 
 		sprintf_s(Cloud.szTextureFile,MAX_PATH, "%s", "metaball.dds");
 
 		g_v_pClouds.clear();
+		g_VolumetricCloud.swap(std::vector<CVolumetricCloud>(g_NewCloudNum));
+		gNumCloud = g_NewCloudNum;
 		for (int i = 0; i < gNumCloud; i++)
 		{
 			Cloud.fLength = g_Cloud[i].l;
@@ -243,6 +206,21 @@ private:
 			g_VolumetricCloud[i].Setup( getContext(), &Env, &Cloud );
 			g_v_pClouds.push_back(&g_VolumetricCloud[i]);
 		}
+
+		// run calc threads
+		allCalcThreadsStop = false;
+		int per_thread = gNumCloud / THREAD_COUNT;
+		for (int i = 0; i < THREAD_COUNT; ++i){
+			int lst = (i + 1) * per_thread;
+			threads.push_back(std::shared_ptr<std::thread>(new std::thread(&RunUpdate, i * per_thread, lst > gNumCloud ? gNumCloud : lst)));			
+		}
+	}
+
+	void generateScene()
+	{
+		delete m_gameScene;
+		m_gameScene = new CGameScene();
+		m_gameScene->Setup(getContext());
 	}
 
 
@@ -251,7 +229,7 @@ private:
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 
-		m_gameScene->Render(0.0,0.0f);
+		m_gameScene->Render(0.0, 0.0f);
 
 		for ( int i=0; i<gNumCloud; ++i )
 		{
@@ -273,12 +251,14 @@ private:
 		switch ( key )
 		{
 			case 27: 
-				glutDestroyWindow ( getContext().getWindowId() );
-
 				allCalcThreadsStop = true;
 
 				for (std::size_t i = 0; i < threads.size(); ++i)
 					threads[i]->join();
+
+				threads.clear();
+
+				glutDestroyWindow ( getContext().getWindowId() );
 
 				exit (0);
 				break;
@@ -286,21 +266,26 @@ private:
 		gCamera->keyboardFunc(key, x, y);
 	}
 
-	void idle() {
-		
-
-		gCamera->idleFunc();
-	}
-
-
 	void reshapeImpl(int width, int height) {
 		glViewport(0, 0, width, height);
 		gCamera->reshapeFunc(width, height);
+
 		gPersProjInfo->Height = (float)height;
 		gPersProjInfo->Width = (float)width;
 		ExitOnGLError("Reshape failed");
 	}
 
+	void setupGL(){
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
+
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glFrontFace(GL_CW);
+		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_POINT_SPRITE);
+	}
 
 private:
 	CGameScene* m_gameScene;
