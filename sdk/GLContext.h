@@ -23,10 +23,10 @@ public:
 	void registerCallbacks(ContextCallbacks* callbacks) const;
 	
 	void initTweakBars();
-	bool getIsInitTweakBars() const{ return isTweakBarsInit; }
+	bool getIsInitTweakBars() const;
 
 	void setCamera(Camera* _camera);
-	Camera* getCamera();
+	Camera* getCamera() const;
 
 	static GLContext getCurrentContext();
 
@@ -43,8 +43,7 @@ private:
 	static void specialFunc(int key, int x, int y);
 	static void closeFunc();
 
-	int     windowId;
-	bool    isTweakBarsInit;
+	int windowId;
 
 	GLContextData* data;
 

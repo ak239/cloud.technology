@@ -29,10 +29,10 @@
 #include "..\ControlledCamera.h"
 #include "..\PersProjInfo.h"
 #include "..\TransformMatrix.h"
+#include "..\GLContext.h"
 
 using namespace std;
 
-extern ControlledCamera*  gCamera;
 extern PersProjInfo*      gPersProjInfo;
 
 CCloudShader::CCloudShader()
@@ -133,7 +133,8 @@ void CCloudShader::Render()
 	
 	TransformMatrix tm;
 	//glm::mat4 mCamera = glm::lookAt(gCamera->getPos(), glm::vec3(-642.0, 510.0, -788.0), gCamera->getUp());
-	glm::mat4 mCamera = gCamera->cameraMat();
+	GLContext context = GLContext::getCurrentContext();
+	glm::mat4 mCamera = context.getCamera()->cameraMat();
 	tm.setCamera(mCamera);
 	tm.setProjection(glm::perspective(gPersProjInfo->FOV, gPersProjInfo->Width/gPersProjInfo->Height, gPersProjInfo->zNear, gPersProjInfo->zFar));
 

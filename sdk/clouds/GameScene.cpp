@@ -1,7 +1,5 @@
 #include "GameScene.h"
 
-
-extern ControlledCamera* gCamera;
 extern PersProjInfo* gPersProjInfo;
 
 CGameScene::CGameScene()
@@ -14,7 +12,7 @@ CGameScene::~CGameScene()
 
 bool CGameScene::Setup(const GLContext & context)
 {
-	skybox = new SkyBox(context, gCamera, *gPersProjInfo);	
+	skybox = new SkyBox(context, context.getCamera(), *gPersProjInfo);	
 	skybox->Init(".",
 		"posx.bmp",
 		"negx.bmp",
