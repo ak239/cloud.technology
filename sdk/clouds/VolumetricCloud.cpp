@@ -71,7 +71,7 @@ bool CVolumetricCloud::Setup( GLContext const & context, Environment *Env, Cloud
 	m_fEvolvingSpeed = Cloud->fEvolvingSpeed;
 	m_vCloudPos = Cloud->vCloudPos;
 	// create texture;
-	sprintf_s(m_szTextureFile, MAX_PATH, "%s", Cloud->szTextureFile);
+	sprintf_s(m_szTextureFile, MAX_PATH, "%s", Cloud->textureFile.c_str());
 
 	m_vWindVelocity = Env->vWindVelocity;
 

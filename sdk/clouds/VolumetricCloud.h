@@ -23,13 +23,13 @@ struct Environment
 
 struct CloudProperties
 {
-	float		fLength;
-	float		fWidth;
-	float		fHigh;
-	float		fCellSize;
-	float		fEvolvingSpeed;
-	glm::vec3 vCloudPos;
-	char		szTextureFile[MAX_PATH];
+	float	    fLength;
+	float	    fWidth;
+	float	    fHigh;
+	float	    fCellSize;
+	float	    fEvolvingSpeed;
+	glm::vec3   vCloudPos;
+	std::string textureFile;
 };
 
 

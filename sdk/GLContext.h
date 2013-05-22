@@ -31,6 +31,9 @@ public:
 	void setPersProjInfo(PersProjInfo* _info);
 	PersProjInfo* getPersProjInfo() const;
 
+	GLint getWidth() const;
+	GLint getHeight() const;
+
 	static GLContext getCurrentContext();
 
 	static const int INVALID_CONTEXT;

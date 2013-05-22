@@ -117,6 +117,18 @@ PersProjInfo* GLContext::getPersProjInfo() const
 	return data->projInfo;
 }
 
+GLint GLContext::getWidth() const
+{
+	GLContextGetter get(*this);
+	return glutGet(GLUT_WINDOW_WIDTH);
+}
+
+GLint GLContext::getHeight() const
+{
+	GLContextGetter get(*this);
+	return glutGet(GLUT_WINDOW_HEIGHT);
+}
+
 GLContext GLContext::getCurrentContext()
 {
 	return GLContext(glutGetWindow());

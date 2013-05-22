@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\..\glm-0.9.4.3;..\..\boost;..\..\AntTweakBar\include;..\..\freeglut-2.8.0\include;..\..\glew-1.9.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\boost\stage\lib;..\..\glew-1.9.0\lib;..\..\glew-1.9.0\bin;..\..\AntTweakBar\lib\debug;..\..\freeglut-2.8.0\lib\x86\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\boost\stage\lib;..\..\glew-1.9.0\lib;..\..\AntTweakBar\lib\debug;..\..\freeglut-2.8.0\lib\x86\Debug;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +87,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clouds\CloudParticle.cpp" />
+    <ClCompile Include="clouds\clouds.cpp" />
     <ClCompile Include="clouds\CloudShader.cpp" />
     <ClCompile Include="clouds\CubemapTexture.cpp" />
     <ClCompile Include="clouds\GameScene.cpp" />
