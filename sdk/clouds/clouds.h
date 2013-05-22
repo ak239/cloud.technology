@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "../ContextCallbacks.h"
 #include "../ControlledCamera.h"
+#include "../FpsCounter.h"
 
 #include "VolumetricCloud.h"
 #include "GameScene.h"
@@ -18,7 +19,8 @@ public:
 	Clouds():
 		m_gameScene(0),camera(0), numCloud(0), newNumCloud(4), 
 		sunColor(1.0f, 1.0f, 1.0f, 1.0f), sunColorIntensity(1.4f), 
-		windVelocity(10.0f), cellSize(12.0f), cloudEvolvingSpeed(0.8f)
+		windVelocity(10.0f), cellSize(12.0f), cloudEvolvingSpeed(0.8f),
+		fpsCounter(FpsCounter())
 	{
 	}
 
@@ -49,14 +51,15 @@ private:
 	void setupGL();
 
 	void stopCalcThreads();
-
+	void printw (float x, float y, float z, char* format, ...);
 private:
 	static bool allCalcThreadsStop;
 
 	CGameScene* m_gameScene;
 	std::vector<std::shared_ptr<boost::thread> > threads;
 	TwBar* m_TwBar;
-
+	
+	FpsCounter fpsCounter;
 	ControlledCamera* camera;
 	int numCloud;
 	int newNumCloud;
