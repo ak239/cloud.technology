@@ -10,6 +10,13 @@ struct CloudPosSize
 	float       h; //height
 };
 
+struct Coord
+{
+	GLfloat x;
+	GLfloat y;
+	GLfloat z;
+};
+
 struct UpdateCloud {
     void operator()( Clouds::CloudIterator fst, Clouds::CloudIterator lst ) const {
 		const int colorUpdateInterval = 1;
@@ -109,7 +116,7 @@ void Clouds::displayImpl() {
 	glDepthMask(GL_TRUE);
 
 	m_gameScene->Render(0.0, 0.0f);
-
+	
 	for (std::size_t i=0; i< clouds.size(); ++i )
 		clouds[i].UpdateViewDistance();
 
@@ -120,7 +127,7 @@ void Clouds::displayImpl() {
 		(*itCurCP)->Render();
 
 	double fps = fpsCounter.calculateFps();
-	printw(-0.9, -0.9, 0, "FPS : %f", fps);
+	printw(-0.9f, -0.9f, 0.0f, "FPS : %f", fps);
 
 	ExitOnGLError("Display failed");
 }

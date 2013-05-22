@@ -61,6 +61,8 @@ protected:
 	PFLOAT		m_pCurrentDensitySpace;
 	int			m_iElapsedSteps;
 
+	FLOAT*      m_cacheSpace;
+	void generateCache();
 
 public:
 	CSimulationSpace();

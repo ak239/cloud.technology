@@ -259,7 +259,10 @@ void CVolumetricCloud::AdvanceTime(double fTime, int interval)
 	}
 
 	UpdateCloudPosition( fTime );
-	SortCloudParticles(camera->getTarget());    
+	if (camera->getTarget() != m_lastTarget){
+		SortCloudParticles(camera->getTarget());    
+		m_lastTarget = camera->getTarget();
+	}
 
 	if ((m_iColorUpdateInterval[m_ParticlePool.m_iCurrentBuffer]%interval) == 0)
 		UpdateCloudParticleColors();

@@ -56,6 +56,8 @@ public:
 	float			 	m_fViewDistances;
 	double              m_fTime;
 
+	glm::vec3           m_lastTarget;
+
 protected:
 	CSimulationSpace	m_Simulator;
 	CCloudShader		m_CloudShader;
