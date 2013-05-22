@@ -61,9 +61,6 @@ protected:
 	PFLOAT		m_pCurrentDensitySpace;
 	int			m_iElapsedSteps;
 
-	FLOAT*      m_cacheSpace;
-	void generateCache();
-
 public:
 	CSimulationSpace();
 	virtual ~CSimulationSpace();
@@ -78,6 +75,7 @@ public:
 
 	void	InterpolateDensitySpace( float fAlpha);
 	float	GetCellDensity( int i, int j, int k );
+	float	GetCellDensity( int index);
 	float	GetPointDensity( glm::vec3 *pvPoint );
 
 	bool	IsCellInVolume( int i, int j, int k, int* pIndex = NULL );

@@ -175,14 +175,17 @@ float CSimulationSpace::GetPointDensity( glm::vec3 *pvPoint )
 	float uPhaseIndex = pvPoint->z - k;
 
 	// get the densities of 8 points around the point.
-	float d0 = GetCellDensity( i,  j,  k  );
-	float d1 = GetCellDensity( i,  j,  k+1);
-	float d2 = GetCellDensity( i,  j+1,k  );
-	float d3 = GetCellDensity( i,  j+1,k+1);
-	float d4 = GetCellDensity( i+1,j,  k  );
-	float d5 = GetCellDensity( i+1,j,  k+1);
-	float d6 = GetCellDensity( i+1,j+1,k  );
-	float d7 = GetCellDensity( i+1,j+1,k+1);
+	int idx1 = INDEX(i, j, k);
+	float d0 = GetCellDensity( idx1 );
+	float d1 = GetCellDensity( idx1 + 1);
+	float d2 = GetCellDensity( idx1 + m_iWidth );
+	float d3 = GetCellDensity( idx1 + m_iWidth + 1);
+
+	int idx2 = INDEX(i + 1, j, k);
+	float d4 = GetCellDensity( idx2 );
+	float d5 = GetCellDensity( idx2 + 1);
+	float d6 = GetCellDensity( idx2 + m_iWidth );
+	float d7 = GetCellDensity( idx2 + m_iWidth + 1);
 
 	// interpolate densities
 	float z01 = (d1 - d0)*uPhaseIndex + d0;
@@ -244,6 +247,11 @@ float CSimulationSpace::GetCellDensity( int i, int j, int k )
 	//return (rand() % 100001) / 100000.0f;
 }
 
+float CSimulationSpace::GetCellDensity( int index)
+{
+	if( ( index < 0 )||( index >= (int)m_uTotalNumCells ) ) return 0;
+	return m_pCurrentDensitySpace[index];
+}
 
 //-----------------------------------------------------------------------------
 // Name: CSimulationSpace::CalculateDensity
