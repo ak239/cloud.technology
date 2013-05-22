@@ -25,7 +25,7 @@ bool SkyBox::Init(const string& Directory,
 				  const string& PosZFilename,
 				  const string& NegZFilename)
 {
-	loader = new FSShaderProgramLoader("./clouds/background");
+	loader = new FSShaderProgramLoader("./sdk/clouds/background");
 	if (loader->loadProgram(m_Context)){
 		const ShaderProgram& program = loader->getProgram();
 		program.use();

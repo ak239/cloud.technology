@@ -48,7 +48,7 @@ bool CCloudShader::Setup( const GLContext& context, CVolumetricCloud* pVolumetri
 	m_iNumParticlesPerBuffer = iNumParticlesPerBuffer;
 
 	// load shaders
-	loader = new FSShaderProgramLoader("./clouds/particle");
+	loader = new FSShaderProgramLoader("./sdk/clouds/particle");
 	if (loader->loadProgram(context)){
 		const ShaderProgram& program = loader->getProgram();
 		program.use();

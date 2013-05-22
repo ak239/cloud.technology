@@ -149,7 +149,7 @@ void Clouds::generateClouds()
 {
 	stopCalcThreads();
 
-	threads.swap(std::vector<std::shared_ptr<std::thread> >());
+	threads.swap(std::vector<std::shared_ptr<boost::thread> >());
 
 	Environment Env;
 	Env.cSunColor          = sunColor;
@@ -160,7 +160,7 @@ void Clouds::generateClouds()
 	CloudProperties Cloud;
 	Cloud.fCellSize      = cellSize;
 	Cloud.fEvolvingSpeed = 1.0f - cloudEvolvingSpeed;
-	Cloud.textureFile    = ".\\media\\metaball.dds";
+	Cloud.textureFile    = ".\\sdk\\media\\metaball.dds";
 
 	pClouds.clear();
 	clouds.swap(std::vector<CVolumetricCloud>(newNumCloud));
@@ -190,7 +190,7 @@ void Clouds::generateClouds()
 		CloudIterator lstIt = clouds.begin();
 		std::advance(lstIt, lst > numCloud ? numCloud : lst); 
 
-		threads.push_back(std::shared_ptr<std::thread>(new std::thread(&RunUpdate, fstIt, lstIt)));			
+		threads.push_back(std::shared_ptr<boost::thread>(new boost::thread(&RunUpdate, fstIt, lstIt)));			
 	}
 }
 

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <ctime>
-#include <thread>
+#include <boost/thread.hpp>
 #include <memory>
 
 #include "../gl.h"
@@ -54,7 +54,7 @@ private:
 	static bool allCalcThreadsStop;
 
 	CGameScene* m_gameScene;
-	std::vector<std::shared_ptr<std::thread> > threads;
+	std::vector<std::shared_ptr<boost::thread> > threads;
 	TwBar* m_TwBar;
 
 	ControlledCamera* camera;
