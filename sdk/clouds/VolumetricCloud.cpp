@@ -83,7 +83,6 @@ bool CVolumetricCloud::Setup( GLContext const & context, Environment *Env, Cloud
 	m_vSunlightDir = Env->vSunlightDir;
 	m_vSunlightDir = glm::normalize(m_vSunlightDir);
 
-	//m_vViewpoint = *g_pvViewpoint;
 	Camera* camera = GLContext::getCurrentContext().getCamera();
 	m_vViewpoint = camera->getPos();
 

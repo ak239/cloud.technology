@@ -126,8 +126,10 @@ void Clouds::displayImpl() {
 	for( itCurCP = pClouds.begin(); itCurCP != itEndCP; ++ itCurCP )	
 		(*itCurCP)->Render();
 
-	double fps = fpsCounter.calculateFps();
-	printw(-0.9f, -0.9f, 0.0f, "FPS : %f", fps);
+	if (isFPSDraw){
+		double fps = fpsCounter.calculateFps();
+		printw(-0.9f, -0.9f, 0.0f, "FPS : %f", fps);
+	}
 
 	ExitOnGLError("Display failed");
 }
@@ -173,6 +175,9 @@ void Clouds::keyboardImpl(unsigned char key, int x, int y) {
 			stopCalcThreads();
 			glutDestroyWindow ( getContext().getWindowId() );
 			exit (0);
+			break;
+		case GLUT_KEY_CTRL_R:
+			isFPSDraw = !isFPSDraw;
 			break;
 	}
 	camera->keyboardFunc(key, x, y);

@@ -20,7 +20,8 @@ public:
 		m_gameScene(0),camera(0), numCloud(0), newNumCloud(4), 
 		sunColor(1.0f, 1.0f, 1.0f, 1.0f), sunColorIntensity(1.4f), 
 		windVelocity(10.0f), cellSize(12.0f), cloudEvolvingSpeed(0.8f),
-		fpsCounter(FpsCounter())
+		fpsCounter(FpsCounter()),
+		isFPSDraw(true)
 	{
 	}
 
@@ -73,4 +74,6 @@ private:
 	GLfloat   windVelocity;
 	GLfloat   cellSize;
 	GLfloat   cloudEvolvingSpeed;
+
+	bool isFPSDraw;
 };
