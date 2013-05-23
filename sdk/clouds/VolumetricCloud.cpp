@@ -291,6 +291,9 @@ void CVolumetricCloud::SetWindVelocity(float v)
 
 void CVolumetricCloud::UpdateViewDistance()
 {
+	Camera* camera = GLContext::getCurrentContext().getCamera();
+	m_vViewpoint = camera->getPos();
+
 	glm::vec3 relation_pos = m_vCloudPos+glm::vec3((float)(m_fLength/2.0),(float)(m_fHigh/2.0),(float)(m_fWidth/2.0)) - m_vViewpoint;
 	m_fViewDistances = glm::length(relation_pos);
 }
